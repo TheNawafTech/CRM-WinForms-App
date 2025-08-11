@@ -25,16 +25,19 @@ Below are some selected screenshots from the CRM System:
 [Watch the demo](https://bit.ly/CRM-System-Demo)
 
 ## Project Structure
+```
 CRM-System/
-├── Forms/ # Windows Forms (Login, Dashboard, Add Customer, User Roles, etc.)
-├── DataAccess/ # SQL operations and database connection
-├── Models/ # Data models (Customer, User, Role, etc.)
-├── Helpers/ # Helper classes, enums for permissions, and utilities
-├── Properties/ # Application settings and resources
-├── README.md # Project documentation
-├── CRM-System.sln # Visual Studio solution file
-├── CRM-System.csproj # Project file
-└── App.config # Database connection string and settings
+├── Forms/              # Windows Forms (Login, Dashboard, Add Customer, User Roles, etc.)
+├── DataAccess/         # SQL operations and database connection
+├── Models/             # Data models (Customer, User, Role, etc.)
+├── Helpers/            # Helper classes, enums for permissions, and utilities
+├── Properties/         # Application settings and resources
+├── Resources/          # Project resources (icons, images, etc.)
+├── README.md           # Project documentation
+├── CRM-System.sln      # Visual Studio solution file
+├── CRM-System.csproj   # Project file
+└── App.config          # Database connection string and settings
+```
 
 ## Getting Started
 1. Clone the repository.  
