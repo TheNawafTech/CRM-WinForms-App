@@ -1,48 +1,41 @@
-# CRM System – Basic Version
+# CRM System (Windows Forms)
 
-This desktop application is designed to manage customer information and control user access through defined roles.  
-The system was developed entirely from scratch without using any third-party libraries.
+This is a simple CRM System developed using C# .NET and SQL Server.
 
-## Project Objective
-To provide an organized and efficient way to manage customer data within teams, while implementing role-based access control to ensure proper authorization.
-
-## Technologies Used
-- Language: C# (.NET Framework)  
-- User Interface: Windows Forms  
-- Database: SQL Server  
-- Platform: Windows Desktop Application  
+## Features
+- Add, edit, and delete customers
+- User roles and permissions
+- Dashboard with statistics
 
 ## Screenshots
-![Login](screenshots/login.png)  
-![Add User](screenshots/add_user.png)  
-![User Roles](screenshots/user_roles.png)  
-![Client List](screenshots/client_list.png)  
-![Search Client](screenshots/search_client.png)  
-![Remove User](screenshots/remove_user.png)
+
+**Login**  
+![Login](login.png)  
+
+**Add User**  
+![Add User](add_user.png)  
+
+**User Roles**  
+![User Roles](user_roles.png)  
+
+**Client List**  
+![Client List](client_list.png)  
+
+**Search Client**  
+![Search Client](search_client.png)  
+
+**Remove User**  
+![Remove User](remove_user.png)  
+
+## Installation
+1. Clone the repository.
+2. Open the solution file `.sln` in Visual Studio.
+3. Restore NuGet packages if needed.
+4. Update the database connection string in `App.config`.
+5. Run the project.
 
 ## Demo Video
-[Watch the demo](https://bit.ly/CRM-System-Demo)
+[Watch on YouTube](https://bit.ly/CRM-Project-Demo-Video)
 
-## Project Structure
-```
-CRM-System/
-├── Forms/              # Windows Forms (Login, Dashboard, Add Customer, User Roles, etc.)
-├── DataAccess/         # SQL operations and database connection
-├── Models/             # Data models (Customer, User, Role, etc.)
-├── Helpers/            # Helper classes, enums for permissions, and utilities
-├── Properties/         # Application settings and resources
-├── screenshots/        # Screenshots used in the README
-├── README.md           # Project documentation
-├── CRM-System.sln      # Visual Studio solution file
-├── CRM-System.csproj   # Project file
-└── App.config          # Database connection string and settings
-```
-
-## Getting Started
-1. Clone the repository.  
-2. Open the `.sln` file in Visual Studio (2019 or later recommended).  
-3. Update the SQL Server connection in `App.config`.  
-4. Build and run the project.
-
-## Feedback
-For suggestions or feedback, please open an issue or contact directly.
+---
+Developed as part of my portfolio projects.
