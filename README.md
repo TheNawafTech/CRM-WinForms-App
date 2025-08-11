@@ -12,7 +12,8 @@ To provide an organized and efficient way to manage customer data within teams, 
 - Database: SQL Server  
 - Platform: Windows Desktop Application  
 
-## Screenshots
+## Some of Screenshots  
+Below are some selected screenshots from the CRM System:
 ![Login](login.png)  
 ![Add User](add_user.png)  
 ![User Roles](user_roles.png)  
