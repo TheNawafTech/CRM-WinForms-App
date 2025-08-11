@@ -23,25 +23,26 @@ Below are some selected screenshots from the CRM System:
 
 ## Demo Video
 [Watch the demo](https://bit.ly/CRM-System-Demo)
-
+## Project Structure
+```
 CRM Project Version 001/
-├── Properties/           # Application settings, resources, and configurations
-├── Resources/            # Images and other resource files used in the app
-├── screenshots/          # Screenshots for README documentation
-├── bin/                  # Compiled binaries (Debug/Release folders)
-├── obj/                  # Build intermediate files
-├── App.config            # Database connection strings and app settings
+├── Properties/              # Application settings, resources, and configurations
+├── Resources/               # Images and other resource files used in the app
+├── screenshots/             # Screenshots for README documentation
+├── bin/                     # Compiled binaries (Debug/Release folders)
+├── obj/                     # Build intermediate files
+├── App.config                # Database connection strings and app settings
 ├── CRM Project Version 001.csproj  # Project file
 ├── CRM Project Version 001.sln     # Visual Studio solution file
-├── Form1.cs              # Main form logic
-├── Form1.Designer.cs     # Main form UI design
-├── Form1.resx            # Main form resources
-├── LoginControl.cs       # Login control logic
+├── Form1.cs                  # Main form logic
+├── Form1.Designer.cs         # Main form UI design
+├── Form1.resx                # Main form resources
+├── LoginControl.cs           # Login control logic
 ├── LoginControl.Designer.cs  # Login control UI design
-├── Program.cs            # Application entry point
-├── README.md             # Project documentation
-└── project_structure.txt # Text file listing the project structure
-
+├── Program.cs                # Application entry point
+├── README.md                 # Project documentation
+└── project_structure.txt     # Text file listing the project structure
+```
 
 ## Getting Started
 1. Clone the repository.  
