@@ -8,7 +8,7 @@ To provide an organized and efficient way to manage customer data within teams, 
 
 ## Technologies Used
 - Language: C# (.NET Framework)  
-- User Interface: Windows Forms  
+- User Interface: Windows Forms
 - Database: SQL Server  
 - Platform: Windows Desktop Application  
 
