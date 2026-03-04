@@ -1,0 +1,68 @@
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\CRM Project Version 001.exe.config
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\CRM Project Version 001.exe
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\CRM Project Version 001.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\BusinessLayer.dll
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\ClsUser_Person.dll
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmMainScreen.exe
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\Settings.dll
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\ClsClient.dll
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\ClsDataLayer.dll
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmViewClients.exe
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmAddNewClient.exe
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmRemoveClient.exe
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmUpdateClient(FindUser First).exe
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmSearchClient.exe
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmManageUsers.exe
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\ClsDataAccessSettings.dll
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmUpdateClient.exe
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmViewUsers.exe
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmAddNewUser.exe
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmDeleteUser.exe
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmUpdateUser.exe
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmFindUser.exe
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmPermissions0.exe
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmUpdateUser0.exe
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\BusinessLayer.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\ClsUser_Person.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmMainScreen.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmMainScreen.exe.config
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\Settings.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\ClsClient.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\ClsDataLayer.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmViewClients.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmViewClients.exe.config
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmAddNewClient.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmAddNewClient.exe.config
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmRemoveClient.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmRemoveClient.exe.config
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmUpdateClient(FindUser First).pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmUpdateClient(FindUser First).exe.config
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmSearchClient.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmSearchClient.exe.config
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmManageUsers.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmManageUsers.exe.config
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\ClsDataAccessSettings.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmUpdateClient.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmUpdateClient.exe.config
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmViewUsers.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmViewUsers.exe.config
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmAddNewUser.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmAddNewUser.exe.config
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmDeleteUser.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmDeleteUser.exe.config
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmUpdateUser.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmUpdateUser.exe.config
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmFindUser.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmFindUser.exe.config
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmPermissions0.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmPermissions0.exe.config
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmUpdateUser0.pdb
+C:\Users\Abura\source\repos\CRM Project Version 001\bin\Debug\frmUpdateUser0.exe.config
+C:\Users\Abura\source\repos\CRM Project Version 001\obj\Debug\CRM.csproj.AssemblyReference.cache
+C:\Users\Abura\source\repos\CRM Project Version 001\obj\Debug\CRM_Project_Version_001.Form1.resources
+C:\Users\Abura\source\repos\CRM Project Version 001\obj\Debug\CRM_Project_Version_001.Properties.Resources.resources
+C:\Users\Abura\source\repos\CRM Project Version 001\obj\Debug\CRM.csproj.GenerateResource.cache
+C:\Users\Abura\source\repos\CRM Project Version 001\obj\Debug\CRM.csproj.CoreCompileInputs.cache
+C:\Users\Abura\source\repos\CRM Project Version 001\obj\Debug\CRM.csproj.Up2Date
+C:\Users\Abura\source\repos\CRM Project Version 001\obj\Debug\CRM Project Version 001.exe
+C:\Users\Abura\source\repos\CRM Project Version 001\obj\Debug\CRM Project Version 001.pdb
