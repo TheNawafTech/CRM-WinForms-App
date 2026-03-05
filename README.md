@@ -14,13 +14,12 @@ To provide an organized and efficient way to manage customer data within teams, 
 
 ## Some of Screenshots  
 Below are some selected screenshots from the CRM System:
-![Login](login.png)  
-![Add User](add_user.png)  
-![User Roles](user_roles.png)  
-![Client List](client_list.png)  
-![Search Client](search_client.png)  
-![Remove User](remove_user.png)
-
+![Login](Screenshots/login.png)
+![Add User](Screenshots/add_user.png)
+![User Roles](Screenshots/user_roles.png)
+![Client List](Screenshots/client_list.png)
+![Search Client](Screenshots/search_client.png)
+![Remove User](Screenshots/remove_user.png)
 ## Demo Video
 [Watch the demo](https://bit.ly/CRM-System-Demo)
 ## Project Structure
