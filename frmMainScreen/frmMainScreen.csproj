@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5C3B2018-E1F3-4672-9412-CA6F36EE3846}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>frmMainScreen</RootNamespace>
+    <AssemblyName>frmMainScreen</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="frmMainScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMainScreen.Designer.cs">
+      <DependentUpon>frmMainScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmMainScreen.resx">
+      <DependentUpon>frmMainScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClsUser_Person\ClsUser.csproj">
+      <Project>{0ae49ff7-f905-43d7-acee-d76d965aa98b}</Project>
+      <Name>ClsUser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\frmAddNewClient\frmAddNewClient.csproj">
+      <Project>{408634a7-dc4b-440c-8771-e9a73048fe0c}</Project>
+      <Name>frmAddNewClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\frmManageUsers\frmManageUsers.csproj">
+      <Project>{06a9fd86-5e23-4a53-8661-701879aecb3c}</Project>
+      <Name>frmManageUsers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\frmRemoveClient\frmRemoveClient.csproj">
+      <Project>{fa9e73c3-d120-4c1c-b189-0d1e61b2fa3d}</Project>
+      <Name>frmRemoveClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\frmSearchClient\frmSearchClient.csproj">
+      <Project>{7598a56b-2c34-4fe4-b088-cd0208420678}</Project>
+      <Name>frmSearchClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\frmUpdateClient%28FindUser First%29\frmUpdateClient%28FindUser First%29.csproj">
+      <Project>{53c42bf5-4a39-449c-bdd8-1eef64c0af8d}</Project>
+      <Name>frmUpdateClient%28FindUser First%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\frmViewClients\frmViewClients.csproj">
+      <Project>{b481e52a-d148-4099-b8c1-86fe8bf3394b}</Project>
+      <Name>frmViewClients</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\old 1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\View Clients.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FindClient.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Logout.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FindClient1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FindClient2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Update.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Up1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Delete.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Addd.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Uppp.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Vieww.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Manage.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Search.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Loo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mane.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ضضض.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ppp.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
