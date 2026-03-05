@@ -1,56 +1,245 @@
-# CRM System – Basic Version
+# CRM Desktop Application  
+(Customer Relationship Management)
 
-This desktop application is designed to manage customer information and control user access through defined roles.  
-The system was developed entirely from scratch without using any third-party libraries.
+A simple CRM desktop application built using **C# Windows Forms** and **SQL Server**, following a basic **3-Tier Architecture** structure.
 
-## Project Objective
-To provide an organized and efficient way to manage customer data within teams, while implementing role-based access control to ensure proper authorization.
+---
+
+## Overview
+
+This project is a **Customer Relationship Management (CRM) desktop application** designed to manage clients and system users.
+
+The system allows users to store client information and control access to different parts of the application through user permissions.
+
+The project was built **entirely by me from start to finish**, including:
+
+- Database design
+- Application structure
+- Business logic implementation
+- Windows Forms user interface
+
+The main goal of the project was to practice building a **structured desktop system** while improving backend programming and problem-solving skills.
+
+---
+
+## Architecture
+
+The application follows a simple **3-Tier Architecture** to separate responsibilities between different parts of the system.
+
+### Presentation Layer (Windows Forms)
+
+Handles the user interface and interactions.
+
+Examples include:
+
+- Login screen
+- Client management forms
+- User management screens
+- Basic input validation before sending data
+
+The UI layer does not communicate directly with the database.
+
+---
+
+### Business Layer
+
+Contains the application logic.
+
+Responsibilities include:
+
+- Validating client data
+- Managing application operations
+- Handling permission checks
+- Coordinating communication between UI and database
+
+---
+
+### Data Access Layer
+
+Handles communication with the **SQL Server database**.
+
+Responsibilities include:
+
+- Executing SQL queries
+- Reading and writing data
+- Managing database connections
+
+This layer keeps database operations separate from the rest of the application.
+
+---
+
+## Main Features
+
+### Login System
+- User authentication
+- Login validation using database records
+
+### User Management
+- Add users
+- Delete users
+- Manage user permissions
+
+### Client Management
+- Add new clients
+- Update client information
+- Delete clients
+- Search for clients
+
+### Data Validation
+- Basic input validation
+- Prevent storing invalid data
+
+---
+
+## Database
+
+The application uses a **SQL Server database**.
+
+Main tables include:
+
+### Clients
+Stores customer information such as:
+
+- ClientID
+- ClientName
+- Phone
+- Email
+- TotalOrders
+- TotalPurchaseValue
+
+### Users
+Stores system users and permissions:
+
+- UserID
+- UserName
+- FullName
+- Email
+- Password
+- Permissions
+
+The database schema and sample data are included in:
+
+```
+
+Database/CRMproject.sql
+
+```
+
+Running this script will create the database and insert sample data.
+
+---
 
 ## Technologies Used
-- Language: C# (.NET Framework)  
-- User Interface: Windows Forms
-- Database: SQL Server  
-- Platform: Windows Desktop Application  
 
-## Some of Screenshots  
-Below are some selected screenshots from the CRM System:
-![Login](Screenshots/login.png)
-![Add User](Screenshots/add_user.png)
-![User Roles](Screenshots/user_roles.png)
-![Client List](Screenshots/client_list.png)
-![Search Client](Screenshots/search_client.png)
-![Remove User](Screenshots/remove_user.png)
-## Demo Video
-[Watch the demo](https://bit.ly/CRM-System-Demo)
+- C#
+- .NET Framework
+- Windows Forms
+- SQL Server
+- ADO.NET
+
+---
+
 ## Project Structure
-```
-CRM Project Version 001/
-├── Properties/              # Application settings, resources, and configurations
-├── Resources/               # Images and other resource files used in the app
-├── screenshots/             # Screenshots for README documentation
-├── bin/                     # Compiled binaries (Debug/Release folders)
-├── obj/                     # Build intermediate files
-├── App.config                # Database connection strings and app settings
-├── CRM Project Version 001.csproj  # Project file
-├── CRM Project Version 001.sln     # Visual Studio solution file
-├── Form1.cs                  # Main form logic
-├── Form1.Designer.cs         # Main form UI design
-├── Form1.resx                # Main form resources
-├── LoginControl.cs           # Login control logic
-├── LoginControl.Designer.cs  # Login control UI design
-├── Program.cs                # Application entry point
-├── README.md                 # Project documentation
-└── project_structure.txt     # Text file listing the project structure
+
 ```
 
-## Getting Started
-1. Clone the repository.  
-2. Open the `.sln` file in Visual Studio (2019 or later recommended).  
-3. Update the SQL Server connection in `App.config`.  
-4. Build and run the project.
+CRM-WinForms-App
+│
+├── BusinessLayer
+├── ClsDataLayer
+├── ClsClient
+├── ClsUser_Person
+│
+├── Database
+├── Screenshots
+│
+├── frmAddClient
+├── frmManageUsers
+├── frmDeleteUser
+├── frmFindClient
+│
+├── App.config
+├── Program.cs
+├── CRM.sln
+└── README.md
 
-## Feedback
-For suggestions or feedback, please open an issue or contact directly.
+```
 
-نسخ
-تحرير
+---
+
+## How to Run the Project
+
+### 1. Create the Database
+
+Open **SQL Server Management Studio (SSMS)** and run the script located in:
+
+```
+
+Database/CRMproject.sql
+
+```
+
+This will create the database, tables, and sample data.
+
+---
+
+### 2. Configure the Connection String
+
+Open:
+
+```
+
+App.config
+
+````
+
+Update the connection string to match your SQL Server setup.
+
+Example:
+
+```xml
+<connectionStrings>
+  <add name="CRMConnection"
+       connectionString="Server=.;Database=CRMproject;Trusted_Connection=True;"
+       providerName="System.Data.SqlClient"/>
+</connectionStrings>
+````
+
+---
+
+### 3. Run the Application
+
+1. Open `CRM.sln` in **Visual Studio**
+2. Build the solution
+3. Run the application
+
+---
+
+## Screenshots
+
+![Login](Screenshots/login.png)
+
+![Add User](Screenshots/add_user.png)
+
+![User Roles](Screenshots/user_roles.png)
+
+![Client List](Screenshots/client_list.png)
+
+![Search Client](Screenshots/search_client.png)
+
+![Remove User](Screenshots/remove_user.png)
+
+---
+
+## Demo Video
+
+[https://bit.ly/CRM-System-Demo](https://bit.ly/CRM-System-Demo)
+
+---
+
+## Developed By
+
+Developed by **Nawaf Altowairqi**
+
+GitHub
+[https://github.com/TheNawafTech](https://github.com/TheNawafTech)
