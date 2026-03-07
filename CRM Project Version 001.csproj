@@ -101,19 +101,19 @@
     <None Include="Resources\old 1.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj">
+    <ProjectReference Include="BusinessLayer\BusinessLayer.csproj">
       <Project>{eee870db-708e-415e-820d-18c2b7499993}</Project>
       <Name>BusinessLayer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ClsUser_Person\ClsUser.csproj">
+    <ProjectReference Include="ClsUser_Person\ClsUser.csproj">
       <Project>{0ae49ff7-f905-43d7-acee-d76d965aa98b}</Project>
       <Name>ClsUser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\frmMainScreen\frmMainScreen.csproj">
+    <ProjectReference Include="frmMainScreen\frmMainScreen.csproj">
       <Project>{5c3b2018-e1f3-4672-9412-ca6f36ee3846}</Project>
       <Name>frmMainScreen</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Settings\Settings.csproj">
+    <ProjectReference Include="Settings\Settings.csproj">
       <Project>{cb69565e-8b79-4731-9afb-52721bbce317}</Project>
       <Name>Settings</Name>
     </ProjectReference>
