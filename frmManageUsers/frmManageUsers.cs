@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using frmViewUsers;
 using frmAddNewUser;
-using frmUpdateUser;
+//using frmUpdateUser;
 using frmDeleteUser;
 using frmFindUser;
 
@@ -48,8 +48,8 @@ namespace frmManageUsers
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            frmUpdateUser.frmUpdateUser frmUpdate = new frmUpdateUser.frmUpdateUser();
-            frmUpdate.ShowDialog();
+          //  frmUpdateUser.frmUpdateUser frmUpdate = new frmUpdateUser.frmUpdateUser();
+            //frmUpdate.ShowDialog();
         }
         private void btnFindUser_Click(object sender, EventArgs e)
         {

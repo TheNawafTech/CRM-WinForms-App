@@ -103,10 +103,6 @@
       <Project>{331ffe56-a0ba-40c2-8f82-6ef191f1517c}</Project>
       <Name>frmPermissions0</Name>
     </ProjectReference>
-    <ProjectReference Include="..\frmUpdateUser\frmUpdateUser%28Find User First%29.csproj">
-      <Project>{475561f4-e26d-41e4-9547-aafc5e5f5dbc}</Project>
-      <Name>frmUpdateUser%28Find User First%29</Name>
-    </ProjectReference>
     <ProjectReference Include="..\frmViewUsers\frmViewUsers.csproj">
       <Project>{3a5a4c63-c398-4e9e-9696-b84583bc6ea0}</Project>
       <Name>frmViewUsers</Name>
