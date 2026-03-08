@@ -8,7 +8,6 @@ namespace ClsDataAccessSettings
 {
     static public class ClsDataAcessSettings
     {
-        static public string ConnectingCRMproject = "server = .;database = CRMproject ; user Id=sa ;Password =sa123456";
-
+        static public string ConnectingCRMproject = "Server=.;Database=CRMproject;Integrated Security=True;";
     }
 }

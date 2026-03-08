@@ -58,11 +58,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{4FE03660
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Main_Screen", "_Main_Screen", "{25EC5BD3-7C7D-499C-9E8C-901C1E90EA0C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{1960C05B-4A52-4A3C-B3B0-31565F7939C2}"
-	ProjectSection(SolutionItems) = preProject
-		Database\CRM_Database.sql = Database\CRM_Database.sql
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM_WinForms", "CRM_WinForms.csproj", "{E8FAD473-55BD-457A-86EF-29CF9C7FEC22}"
 EndProject
 Global
