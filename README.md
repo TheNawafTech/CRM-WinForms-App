@@ -1,11 +1,12 @@
-# CRM Desktop Application  
+# CRM Desktop Application
+
 (Customer Relationship Management)
 
 A simple CRM desktop application built using **C# Windows Forms** and **SQL Server**, following a basic **3-Tier Architecture** structure.
 
 ---
 
-## Overview
+# Overview
 
 This project is a **Customer Relationship Management (CRM) desktop application** designed to manage clients and system users.
 
@@ -13,187 +14,209 @@ The system allows users to store client information and control access to differ
 
 The project was built **entirely by me from start to finish**, including:
 
-- Database design
-- Application structure
-- Business logic implementation
-- Windows Forms user interface
+* Database design
+* Application architecture
+* Business logic implementation
+* Windows Forms user interface
 
-The main goal of the project was to practice building a **structured desktop system** while improving backend programming and problem-solving skills.
+The goal of this project was to practice **designing and implementing a structured desktop application using a multi-layer architecture**, while improving **backend development skills** and strengthening **problem-solving abilities when building multi-layered systems**.
 
 ---
 
-## Architecture
+# Architecture
 
-The application follows a simple **3-Tier Architecture** to separate responsibilities between different parts of the system.
+The application follows a **3-Tier Architecture** to separate responsibilities between different layers.
 
-### Presentation Layer (Windows Forms)
+## Presentation Layer (Windows Forms)
 
-Handles the user interface and interactions.
+Handles the user interface and user interaction.
 
 Examples include:
 
-- Login screen
-- Client management forms
-- User management screens
-- Basic input validation before sending data
+* Login screen
+* Client management forms
+* User management screens
+* Basic validation before sending data to the business layer
 
-The UI layer does not communicate directly with the database.
+The UI communicates with the database **only through the Business Layer**.
 
 ---
 
-### Business Layer
+## Business Layer
 
-Contains the application logic.
+Contains the core application logic.
 
 Responsibilities include:
 
-- Validating client data
-- Managing application operations
-- Handling permission checks
-- Coordinating communication between UI and database
+* Validating client data
+* Managing application operations
+* Handling permission checks
+* Coordinating communication between UI and database
 
 ---
 
-### Data Access Layer
+## Data Access Layer
 
-Handles communication with the **SQL Server database**.
+Responsible for communicating with the **SQL Server database**.
 
 Responsibilities include:
 
-- Executing SQL queries
-- Reading and writing data
-- Managing database connections
+* Executing SQL queries
+* Reading and writing data
+* Managing database connections
 
-This layer keeps database operations separate from the rest of the application.
-
----
-
-## Main Features
-
-### Login System
-- User authentication
-- Login validation using database records
-
-### User Management
-- Add users
-- Delete users
-- Manage user permissions
-
-### Client Management
-- Add new clients
-- Update client information
-- Delete clients
-- Search for clients
-
-### Data Validation
-- Basic input validation
-- Prevent storing invalid data
+This layer isolates database operations from the rest of the system.
 
 ---
 
-## Database
+# Main Features
+
+## Login System
+
+* User authentication
+* Login validation using database records
+* Permission-based access control
+
+---
+
+## User Management
+
+* Add users
+* Delete users
+* Manage user permissions
+
+---
+
+## Client Management
+
+* Add new clients
+* Update client information
+* Delete clients
+* Search for clients
+
+---
+
+## Data Validation
+
+* Basic input validation
+* Prevent storing invalid data
+
+---
+
+# Database
 
 The application uses a **SQL Server database**.
 
 Main tables include:
 
-### Clients
+## Clients
+
 Stores customer information such as:
 
-- ClientID
-- ClientName
-- Phone
-- Email
-- TotalOrders
-- TotalPurchaseValue
+* ClientID
+* ClientName
+* Phone
+* Email
+* TotalOrders
+* TotalPurchaseValue
 
-### Users
-Stores system users and permissions:
+---
 
-- UserID
-- UserName
-- FullName
-- Email
-- Password
-- Permissions
+## Users
+
+Stores system users and their permissions:
+
+* UserID
+* UserName
+* FullName
+* Email
+* Password
+* Permissions
+
+---
 
 The database schema and sample data are included in:
 
 ```
-
 Database/CRMproject.sql
-
 ```
 
-Running this script will create the database and insert sample data.
+Running this script will automatically create:
+
+* The database
+* All required tables
+* Sample data for testing
 
 ---
 
-## Technologies Used
+# Technologies Used
 
-- C#
-- .NET Framework
-- Windows Forms
-- SQL Server
-- ADO.NET
+* C#
+* .NET Framework
+* Windows Forms
+* SQL Server
+* ADO.NET
+* 3-Tier Architecture
 
 ---
 
-## Project Structure
+# Project Structure
 
 ```
-
 CRM-WinForms-App
 │
-├── BusinessLayer
-├── ClsDataLayer
-├── ClsClient
-├── ClsUser_Person
+├── CRM.WinForms          (Main Application)
+├── CRM.Business
+├── CRM.DataAccess
 │
 ├── Database
+│   └── CRMproject.sql
+│
 ├── Screenshots
 │
-├── frmAddClient
-├── frmManageUsers
-├── frmDeleteUser
-├── frmFindClient
-│
-├── App.config
 ├── Program.cs
+├── App.config
 ├── CRM.sln
 └── README.md
-
 ```
 
 ---
 
-## How to Run the Project
+# How to Run the Project
 
-### 1. Create the Database
-
-Open **SQL Server Management Studio (SSMS)** and run the script located in:
+## 1. Clone the Repository
 
 ```
+git clone https://github.com/TheNawafTech/CRM-WinForms-App.git
+```
 
+or download the project as a ZIP file.
+
+---
+
+## 2. Create the Database
+
+Open **SQL Server Management Studio (SSMS)**.
+
+Open the script located in:
+
+```
 Database/CRMproject.sql
-
 ```
 
-This will create the database, tables, and sample data.
+Run the script to create the database and tables.
 
 ---
 
-### 2. Configure the Connection String
+## 3. Configure the Connection String
 
 Open:
 
 ```
-
 App.config
+```
 
-````
-
-Update the connection string to match your SQL Server setup.
+Update the connection string according to your SQL Server configuration.
 
 Example:
 
@@ -203,19 +226,51 @@ Example:
        connectionString="Server=.;Database=CRMproject;Trusted_Connection=True;"
        providerName="System.Data.SqlClient"/>
 </connectionStrings>
-````
+```
 
 ---
 
-### 3. Run the Application
+## 4. Open the Solution
 
-1. Open `CRM.sln` in **Visual Studio**
-2. Build the solution
-3. Run the application
+Open the project in **Visual Studio**:
+
+```
+CRM.sln
+```
 
 ---
 
-## Screenshots
+## 5. Set the Startup Project
+
+Inside **Visual Studio**:
+
+1. Right click on:
+
+```
+CRM.WinForms
+```
+
+2. Select:
+
+```
+Set as Startup Project
+```
+
+---
+
+## 6. Run the Application
+
+Press:
+
+```
+F5
+```
+
+or click **Start** in Visual Studio.
+
+---
+
+# Screenshots
 
 ![Login](Screenshots/login.png)
 
@@ -231,15 +286,54 @@ Example:
 
 ---
 
-## Demo Video
+# Demo Video
 
-[https://bit.ly/CRM-System-Demo](https://bit.ly/CRM-System-Demo)
+https://bit.ly/CRM-System-Demo
 
 ---
 
-## Developed By
+# Troubleshooting
 
-Developed by **Nawaf Altowairqi**
+## Application cannot connect to database
+
+Make sure:
+
+* SQL Server is running
+* The connection string in **App.config** is correct
+* The database script was executed successfully
+
+---
+
+## Startup project error
+
+If Visual Studio shows:
+
+```
+Class Library cannot be started directly
+```
+
+Set the startup project to:
+
+```
+CRM.WinForms
+```
+
+---
+
+# Future Improvements
+
+Possible future enhancements include:
+
+* Implementing password hashing for improved security
+* Expanding the permission management system
+* Adding more advanced client search and filtering
+* Improving the user interface design
+
+---
+
+# Developed By
+
+**Nawaf Altowairqi**
 
 GitHub
-[https://github.com/TheNawafTech](https://github.com/TheNawafTech)
+https://github.com/TheNawafTech
