@@ -63,7 +63,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{19
 		Database\CRM_Database.sql = Database\CRM_Database.sql
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM Project Version 001", "CRM Project Version 001.csproj", "{E8FAD473-55BD-457A-86EF-29CF9C7FEC22}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM_WinForms", "CRM_WinForms.csproj", "{E8FAD473-55BD-457A-86EF-29CF9C7FEC22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

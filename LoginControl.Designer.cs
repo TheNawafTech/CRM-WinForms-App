@@ -1,4 +1,4 @@
-namespace CRM_Project_Version_001
+namespace CRM_WinForms
 {
     partial class LoginControl
     {

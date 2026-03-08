@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CRM_Project_Version_001.Properties {
+namespace CRM_WinForms.Properties {
     using System;
     
     

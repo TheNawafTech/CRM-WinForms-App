@@ -2,7 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CRM_Project_Version_001
+namespace CRM_WinForms
 {
     public partial class Form1 : Form
     {

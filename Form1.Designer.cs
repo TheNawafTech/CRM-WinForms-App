@@ -1,4 +1,4 @@
-﻿namespace CRM_Project_Version_001
+﻿namespace CRM_WinForms
 {
     partial class Form1
     {
@@ -67,7 +67,7 @@
             // 
             this.btnLogin.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLogin.BackgroundImage = global::CRM_Project_Version_001.Properties.Resources.old_1;
+            this.btnLogin.BackgroundImage = global::CRM_WinForms.Properties.Resources.old_1;
             this.btnLogin.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnLogin.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Bold);
             this.btnLogin.ForeColor = System.Drawing.Color.Transparent;
@@ -109,7 +109,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.BackgroundImage = global::CRM_Project_Version_001.Properties.Resources.old_1;
+            this.BackgroundImage = global::CRM_WinForms.Properties.Resources.old_1;
             this.ClientSize = new System.Drawing.Size(800, 407);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
