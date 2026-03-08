@@ -16,7 +16,7 @@ namespace nClsDataLayer
     {
         ClsUser _User = new ClsUser();
 
-        string ConnectionString = "server = .;database = ContactsDB ; user Id=sa ;Password =sa123456";
+        string ConnectionString = "Server=.;Database=CRMproject;Integrated Security=True;";
 
         public static int ConnectDatabaseExcuteNonQuery(string Connection, string Query, Dictionary<string, object> parameters = null)
         {
@@ -336,30 +336,46 @@ namespace nClsDataLayer
 
         public static bool IsUserExsist(ref ClsUser User)
         {
-            string Query = "SELECT * FROM Users where UserName =@UserName AND Password=@Password";
-
-            var parameters = new Dictionary<string, object>
+            try
             {
-                { "@UserName", User.UserName},{"@Password",User.Password}
-            };
+                string Query = @"SELECT UserID, UserName, FullName, Email, Password, Permissions
+                         FROM Users
+                         WHERE UserName = @UserName AND Password = @Password";
 
-            SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
+                var parameters = new Dictionary<string, object>
+        {
+            { "@UserName", User.UserName },
+            { "@Password", User.Password }
+        };
 
-            if (reader.Read())
-            {
-                User.UserID = (int)reader["UserID"];
-                User.UserName = reader["UserName"].ToString();
-                User.FullName = reader["FullName"].ToString();
-                User.Email = reader["Email"].ToString();
-                User.Password = reader["Password"].ToString();
-                User.Permissions = (enPermissions)Enum.Parse(typeof(enPermissions), reader["Permissions"].ToString());
+                SqlDataReader reader = ConnectDatabaseExecuteReader(
+                    ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject,
+                    Query,
+                    parameters
+                );
 
-                return true;
+                if (reader != null && reader.Read())
+                {
+                    User.UserID = (int)reader["UserID"];
+                    User.UserName = reader["UserName"].ToString();
+                    User.FullName = reader["FullName"].ToString();
+                    User.Email = reader["Email"].ToString();
+                    User.Password = reader["Password"].ToString();
+                    User.Permissions = (enPermissions)Enum.Parse(typeof(enPermissions), reader["Permissions"].ToString());
+
+                    reader.Close();
+                    return true;
+                }
+
+                reader?.Close();
+                return false;
             }
-
-            return false;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Database error: {ex.Message}");
+                return false;
+            }
         }
-
         public static bool AddNewClient(ref ClsClient.ClsClient newClient)
         {
             if (IsClientExsist(newClient))

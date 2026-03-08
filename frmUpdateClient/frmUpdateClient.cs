@@ -14,7 +14,6 @@ namespace frmUpdateClient
 {
     public partial class frmUpdateClient : Form
     {
-        string TheTextOfPlaceholde;
 
         ClsClient.ClsClient Client0 = new ClsClient.ClsClient();
 
