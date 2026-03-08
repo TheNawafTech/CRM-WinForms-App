@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrmFindAndUpdate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmFindAndUpdate.Designer.cs">
+      <DependentUpon>FrmFindAndUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmManageUsers.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +60,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FrmFindAndUpdate.resx">
+      <DependentUpon>FrmFindAndUpdate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmManageUsers.resx">
       <DependentUpon>frmManageUsers.cs</DependentUpon>
     </EmbeddedResource>
@@ -87,6 +96,14 @@
     <None Include="Resources\ppp.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj">
+      <Project>{eee870db-708e-415e-820d-18c2b7499993}</Project>
+      <Name>BusinessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ClsUser_Person\ClsUser.csproj">
+      <Project>{0ae49ff7-f905-43d7-acee-d76d965aa98b}</Project>
+      <Name>ClsUser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\frmAddNewUser\frmAddNewUser.csproj">
       <Project>{cc0e960f-67a3-483a-a444-fb7c4fd3d9fb}</Project>
       <Name>frmAddNewUser</Name>
@@ -103,10 +120,24 @@
       <Project>{331ffe56-a0ba-40c2-8f82-6ef191f1517c}</Project>
       <Name>frmPermissions0</Name>
     </ProjectReference>
+    <ProjectReference Include="..\frmUpdateClient%28FindUser First%29\frmUpdateClient%28FindUser First%29.csproj">
+      <Project>{53c42bf5-4a39-449c-bdd8-1eef64c0af8d}</Project>
+      <Name>frmUpdateClient%28FindUser First%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\frmUpdateUser0\frmUpdateUser0.csproj">
+      <Project>{b294a201-dd0d-49f4-b1ed-96fa8ee2132a}</Project>
+      <Name>frmUpdateUser0</Name>
+    </ProjectReference>
     <ProjectReference Include="..\frmViewUsers\frmViewUsers.csproj">
       <Project>{3a5a4c63-c398-4e9e-9696-b84583bc6ea0}</Project>
       <Name>frmViewUsers</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Loo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LOGO.jpeg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
