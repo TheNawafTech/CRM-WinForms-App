@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace CRM_Project_Version_001
+namespace CRM_WinForms
 {
     public partial class LoginControl : UserControl
     {
