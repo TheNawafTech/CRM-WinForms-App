@@ -224,7 +224,6 @@ CRM Desktop Application
 
 This structure reflects the project’s modular organization, where each form or functional area is separated into its own project or folder, while business logic and data access are isolated in dedicated layers.
 
-````
 
 # How to Run the Project
 
