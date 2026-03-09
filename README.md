@@ -313,21 +313,19 @@ F5
 or click **Start** in Visual Studio.
 
 ---
+## Screenshots
 
-# Screenshots
+![Login](./Screenshots/login.png)
 
-![Login](Screenshots/login.png)
+![Add User](./Screenshots/add_user.png)
 
-![Add User](Screenshots/add_user.png)
+![User Roles](./Screenshots/user_roles.png)
 
-![User Roles](Screenshots/user_roles.png)
+![Client List](./Screenshots/client_list.png)
 
-![Client List](Screenshots/client_list.png)
+![Search Client](./Screenshots/search_client.png)
 
-![Search Client](Screenshots/search_client.png)
-
-![Remove User](Screenshots/remove_user.png)
-
+![Remove User](./Screenshots/remove_user.png)
 ---
 
 # Demo Video
