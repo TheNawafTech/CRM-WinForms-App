@@ -162,25 +162,69 @@ Running this script will automatically create:
 
 # Project Structure
 
-```
-CRM-WinForms-App
+The project is organized into multiple modules that separate UI forms, business logic, data access, settings, and database scripts.
+
+```text
+CRM Desktop Application
 │
-├── CRM.WinForms          (Main Application)
-├── CRM.Business
-├── CRM.DataAccess
+├── BusinessLayer
+│   ├── ClsBusinessLayer.cs
+│   └── BusinessLayer.csproj
+│
+├── ClsClient
+│   ├── ClsClient.cs
+│   └── ClsClient.csproj
+│
+├── ClsDataAccessSettings
+│   ├── ClsDataAccessSettings.cs
+│   └── ClsDataAccessSettings.csproj
+│
+├── ClsDataLayer
+│   ├── ClsDataLayer.cs
+│   └── ClsDataLayer.csproj
+│
+├── ClsUser_Person
+│   ├── ClsUser.cs
+│   └── related project files
 │
 ├── Database
 │   └── CRMproject.sql
 │
 ├── Screenshots
+│   ├── login.png
+│   ├── add_user.png
+│   ├── client_list.png
+│   ├── remove_user.png
+│   ├── search_client.png
+│   └── user_roles.png
 │
-├── Program.cs
+├── Settings
+│   ├── Settings.cs
+│   └── Settings.csproj
+│
+├── frmAddNewClient
+├── frmAddNewUser
+├── frmDeleteUser
+├── frmFindUser
+├── frmMainScreen
+├── frmManageUsers
+├── frmPermissions0
+├── frmRemoveClient
+├── frmSearchClient
+├── frmUpdateClient(FindUser First)
+├── frmUpdateClient
+├── frmUpdateUser0
+├── frmViewClients
+├── frmViewUsers
+│
 ├── App.config
 ├── CRM.sln
 └── README.md
-```
+````
 
----
+This structure reflects the project’s modular organization, where each form or functional area is separated into its own project or folder, while business logic and data access are isolated in dedicated layers.
+
+````
 
 # How to Run the Project
 
