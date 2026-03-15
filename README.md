@@ -93,7 +93,6 @@ This layer isolates database operations from the rest of the system.
 * Update client information
 * Delete clients
 * Search for clients
-
 ---
 
 ## Data Validation
