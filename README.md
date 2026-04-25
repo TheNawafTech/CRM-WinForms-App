@@ -210,7 +210,7 @@ CRM Desktop Application
 ├── frmPermissions0
 ├── frmRemoveClient
 ├── frmSearchClient
-├── frmUpdateClient(FindUser First)
+├── frmUpdateClient(After FindUser First)
 ├── frmUpdateClient
 ├── frmUpdateUser0
 ├── frmViewClients
