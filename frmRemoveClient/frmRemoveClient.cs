@@ -17,6 +17,7 @@ namespace frmRemoveClient
     {
 
         ClsClient.ClsClient Client = null;
+        int _ClientID; // set by Validateinput
 
         public frmRemoveClient()
         {
@@ -68,18 +69,21 @@ namespace frmRemoveClient
         {
             textBox1.Text = textBox1.Text.Trim();
 
-            if (textBox1.Text == "Enter Client ID.." || string.IsNullOrWhiteSpace(textBox1.Text))
+            // Covers the placeholder, empty input, letters and non-positive numbers.
+            if (!int.TryParse(textBox1.Text, out _ClientID) || _ClientID <= 0)
             {
                 MessageBox.Show("Please enter a valid Client ID.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBox1.Focus();
                 return false;
             }
 
-            if (ClsBusinessLayer.ClsBusinessLayer.IsClientExsist(int.Parse(textBox1.Text),ref Client))
+            if (!ClsBusinessLayer.ClsBusinessLayer.IsClientExsist(_ClientID, ref Client))
             {
-                return true;
+                MessageBox.Show("Failed to remove client. Please check the Client ID and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
 
-            return false;
+            return true;
         }
         private void btnSubmit_Click(object sender, EventArgs e)
         {
@@ -92,7 +96,7 @@ namespace frmRemoveClient
 
                 if (Result == DialogResult.OK)
                 {
-                    if (ClsBusinessLayer.ClsBusinessLayer.RemoveClient(int.Parse(textBox1.Text)))
+                    if (ClsBusinessLayer.ClsBusinessLayer.RemoveClient(_ClientID))
                     {
                         MessageBox.Show("Client removed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Close();
@@ -103,8 +107,6 @@ namespace frmRemoveClient
                     }
                 }
             }
-            else
-                MessageBox.Show("Failed to remove client. Please check the Client ID and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
      

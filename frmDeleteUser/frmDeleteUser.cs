@@ -15,6 +15,7 @@ namespace frmDeleteUser
     public partial class frmDeleteUser : Form
     {
         ClsUser User = new ClsUser();
+        int _UserID; // set by Validateinput
         public frmDeleteUser()
         {
             InitializeComponent();
@@ -27,18 +28,21 @@ namespace frmDeleteUser
         {
             textBox1.Text = textBox1.Text.Trim();
 
-            if (textBox1.Text == "Enter User ID.." || string.IsNullOrWhiteSpace(textBox1.Text))
+            // Covers the placeholder, empty input, letters and non-positive numbers.
+            if (!int.TryParse(textBox1.Text, out _UserID) || _UserID <= 0)
             {
                 MessageBox.Show("Please enter a valid User ID.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBox1.Focus();
                 return false;
             }
 
-            if (ClsBusinessLayer.ClsBusinessLayer.IsUserExsist(int.Parse(textBox1.Text), ref User))
+            if (!ClsBusinessLayer.ClsBusinessLayer.IsUserExsist(_UserID, ref User))
             {
-                return true;
+                MessageBox.Show("Failed to remove User. Please check the User ID and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
 
-            return false;
+            return true;
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
@@ -50,7 +54,7 @@ namespace frmDeleteUser
 
                 if (Result == DialogResult.OK)
                 {
-                    if (ClsBusinessLayer.ClsBusinessLayer.RemoveUser(int.Parse(textBox1.Text)))
+                    if (ClsBusinessLayer.ClsBusinessLayer.RemoveUser(_UserID))
                     {
                         MessageBox.Show("User removed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Close();
@@ -61,8 +65,6 @@ namespace frmDeleteUser
                     }
                 }
             }
-            else
-                MessageBox.Show("Failed to remove User. Please check the User ID and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void frmDeleteUser_Load(object sender, EventArgs e)

@@ -121,16 +121,25 @@ namespace nClsDataLayer
 
             SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAcessSettings.ConnectingCRMproject, "select * from Clients where ClientID = @ClientID", Parameter);
 
-            if (reader.Read() && reader != null)
+            // A null reader means the query itself failed (e.g. database unavailable).
+            // It is reported as false like "not found"; telling the two apart belongs to the error-handling work.
+            if (reader == null)
             {
-                client.ClientID = (int)reader["ClientID"];
-                client.ClientName = reader["ClientName"].ToString();
-                client.Phone = reader["Phone"].ToString();
-                client.Email = reader["Email"].ToString();
-                client.TotalOrders = (int)reader["TotalOrders"];
-                client.TotalPurchaseValue = (decimal)reader["TotalPurchaseValue"];
-                return true;
+                return false;
+            }
 
+            using (reader)
+            {
+                if (reader.Read())
+                {
+                    client.ClientID = (int)reader["ClientID"];
+                    client.ClientName = reader["ClientName"].ToString();
+                    client.Phone = reader["Phone"].ToString();
+                    client.Email = reader["Email"].ToString();
+                    client.TotalOrders = (int)reader["TotalOrders"];
+                    client.TotalPurchaseValue = (decimal)reader["TotalPurchaseValue"];
+                    return true;
+                }
             }
 
             return false;
@@ -162,12 +171,15 @@ namespace nClsDataLayer
 
             SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
 
-            if (reader.Read())
+            if (reader == null)
             {
-                return true;
+                return false;
             }
 
-            return false;
+            using (reader)
+            {
+                return reader.Read();
+            }
         }
 
         public static bool IsClientExsist(int ClientID)
@@ -183,12 +195,15 @@ namespace nClsDataLayer
 
             SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
 
-            if (reader.Read())
+            if (reader == null)
             {
-                return true;
+                return false;
             }
 
-            return false;
+            using (reader)
+            {
+                return reader.Read();
+            }
         }
 
         public static bool IsClientExsist(int ClientID, ref ClsClient.ClsClient Client)
@@ -207,15 +222,23 @@ namespace nClsDataLayer
 
             SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
 
-            if (reader.Read())
+            if (reader == null)
             {
-                Client.ClientName = reader["ClientName"].ToString();
-                Client.Phone = reader["Phone"].ToString();
-                Client.Email = reader["Email"].ToString();
-                Client.TotalOrders = int.Parse(reader["TotalOrders"].ToString());
-                Client.TotalPurchaseValue = decimal.Parse(reader["TotalPurchaseValue"].ToString());
+                return false;
+            }
 
-                return true;
+            using (reader)
+            {
+                if (reader.Read())
+                {
+                    Client.ClientName = reader["ClientName"].ToString();
+                    Client.Phone = reader["Phone"].ToString();
+                    Client.Email = reader["Email"].ToString();
+                    Client.TotalOrders = int.Parse(reader["TotalOrders"].ToString());
+                    Client.TotalPurchaseValue = decimal.Parse(reader["TotalPurchaseValue"].ToString());
+
+                    return true;
+                }
             }
 
             return false;
@@ -234,13 +257,21 @@ namespace nClsDataLayer
 
             SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
 
-            if (reader.Read() && reader != null)
+            if (reader == null)
             {
-                User.UserName = reader["UserName"].ToString();
-                User.FullName = reader["FullName"].ToString();
-                User.Email = reader["Email"].ToString();
-                User.Permissions = (enPermissions)Enum.Parse(typeof(enPermissions), reader["Permissions"].ToString());
-                return true;
+                return false;
+            }
+
+            using (reader)
+            {
+                if (reader.Read())
+                {
+                    User.UserName = reader["UserName"].ToString();
+                    User.FullName = reader["FullName"].ToString();
+                    User.Email = reader["Email"].ToString();
+                    User.Permissions = (enPermissions)Enum.Parse(typeof(enPermissions), reader["Permissions"].ToString());
+                    return true;
+                }
             }
 
             return false;

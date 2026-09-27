@@ -41,11 +41,16 @@ namespace frmViewClients
         {
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 12, FontStyle.Bold);
-            dataGridView1.Columns["ClientName"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            dataGridView1.Columns["Phone"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            dataGridView1.Columns["Email"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            dataGridView1.Columns["TotalOrders"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            dataGridView1.Columns["TotalPurchaseValue"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+
+            // The grid only has columns when clients were loaded; with no rows there is nothing to style.
+            if (dataGridView1.Columns.Contains("ClientName"))
+            {
+                dataGridView1.Columns["ClientName"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+                dataGridView1.Columns["Phone"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+                dataGridView1.Columns["Email"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+                dataGridView1.Columns["TotalOrders"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+                dataGridView1.Columns["TotalPurchaseValue"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+            }
 
             dataGridView1.EnableHeadersVisualStyles = false; // Disable default header styles to apply custom styles
             dataGridView1.BorderStyle = BorderStyle.None; // Remove border for a cleaner look
