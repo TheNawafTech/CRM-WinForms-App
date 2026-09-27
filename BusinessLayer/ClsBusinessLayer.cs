@@ -25,8 +25,6 @@ namespace ClsBusinessLayer
 
     public class ClsBusinessLayer
     {
-        ClsUser User = new ClsUser();
-
         // Shown by the UI for enOperationStatus.Failure. Technical details only go to Trace.
         public const string SystemErrorMessage = "A system error occurred while accessing the database. Please try again.";
 
@@ -157,19 +155,6 @@ namespace ClsBusinessLayer
             }
         }
 
-        static public bool RemoveUser(int UserID, ref ClsUser User)
-        {
-            try
-            {
-                return ClsDataLayer.RemoveUser(UserID, User);
-            }
-            catch (Exception ex)
-            {
-                _TraceFailure(nameof(RemoveUser), ex);
-                return false;
-            }
-        }
-
         public static enOperationStatus GetClient(int ID, ref ClsClient.ClsClient client)
         {
             try
@@ -280,11 +265,6 @@ namespace ClsBusinessLayer
 
             // At most 2 decimal places (no silent rounding) and within the column range.
             return decimal.Round(Value, 2) == Value && Value <= MaxPurchaseValue;
-        }
-
-        public static bool AreFieldsEmpty0(string Text)
-        {
-            return string.IsNullOrWhiteSpace(Text);
         }
 
         public static string txtEnter(string text, string placeholder)

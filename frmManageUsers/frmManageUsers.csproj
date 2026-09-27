@@ -10,7 +10,6 @@
     <AssemblyName>frmManageUsers</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -86,9 +85,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\old 1.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -114,14 +110,6 @@
     <ProjectReference Include="..\frmFindUser\frmSearchUser.csproj">
       <Project>{72ed5273-7a04-4003-8d9e-1373512dc798}</Project>
       <Name>frmSearchUser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\frmPermissions0\frmPermissions0.csproj">
-      <Project>{331ffe56-a0ba-40c2-8f82-6ef191f1517c}</Project>
-      <Name>frmPermissions0</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\frmUpdateClient%28FindUser First%29\frmUpdateClient%28FindUser First%29.csproj">
-      <Project>{53c42bf5-4a39-449c-bdd8-1eef64c0af8d}</Project>
-      <Name>frmUpdateClient%28FindUser First%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\frmUpdateUser0\frmUpdateUser0.csproj">
       <Project>{b294a201-dd0d-49f4-b1ed-96fa8ee2132a}</Project>

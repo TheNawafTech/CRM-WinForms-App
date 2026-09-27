@@ -14,8 +14,6 @@ namespace nClsDataLayer
 {
     public class ClsDataLayer
     {
-        ClsUser _User = new ClsUser();
-
         // Technical errors are not caught in this layer: they propagate to the business layer,
         // which reports them as failures. Each helper disposes the objects it creates.
 
@@ -278,19 +276,6 @@ namespace nClsDataLayer
         {
             string Query = "DELETE FROM Users WHERE UserID = @UserID";
            
-            var parameters = new Dictionary<string, object>
-            {
-                { "@UserID", UserID }
-            };
-
-            int rowsAffected = ConnectDatabaseExcuteNonQuery(ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
-            return rowsAffected > 0; // Return true if at least one row was affected
-        }
-
-        public static bool RemoveUser(int UserID, ClsUser User)
-        {
-            string Query = "DELETE FROM Users WHERE UserID = @UserID";
-
             var parameters = new Dictionary<string, object>
             {
                 { "@UserID", UserID }

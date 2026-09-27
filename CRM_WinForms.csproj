@@ -52,12 +52,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="LoginControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="LoginControl.Designer.cs">
-      <DependentUpon>LoginControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -112,10 +106,6 @@
     <ProjectReference Include="frmMainScreen\frmMainScreen.csproj">
       <Project>{5c3b2018-e1f3-4672-9412-ca6f36ee3846}</Project>
       <Name>frmMainScreen</Name>
-    </ProjectReference>
-    <ProjectReference Include="Settings\Settings.csproj">
-      <Project>{cb69565e-8b79-4731-9afb-52721bbce317}</Project>
-      <Name>Settings</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
