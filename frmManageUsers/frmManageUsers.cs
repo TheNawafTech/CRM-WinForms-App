@@ -51,5 +51,11 @@ namespace frmManageUsers
             FrmFindAndUpdate frmFind = new FrmFindAndUpdate();
             frmFind.ShowDialog();
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            frmFindUser.frmSearchUser frmSearch = new frmFindUser.frmSearchUser();
+            frmSearch.ShowDialog();
+        }
     }
 }
