@@ -3,6 +3,7 @@ using nClsDataLayer;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -125,9 +126,21 @@ namespace ClsBusinessLayer
             return int.TryParse(input, out Value);
         }
 
-        public static bool IsValidDecimal(string input, decimal Value)
+        // Largest value that fits Clients.TotalPurchaseValue DECIMAL(10,2).
+        public const decimal MaxPurchaseValue = 99999999.99m;
+
+        // Purchase values are always entered as 1234.56 (dot decimal separator, no thousands
+        // separator, no sign), regardless of the machine's regional settings. Ambiguous input
+        // such as "700,50" is rejected instead of being read as 70050.
+        public static bool TryParsePurchaseValue(string Text, out decimal Value)
         {
-            return decimal.TryParse(input, out Value);
+            if (!decimal.TryParse(Text?.Trim(), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out Value))
+            {
+                return false;
+            }
+
+            // At most 2 decimal places (no silent rounding) and within the column range.
+            return decimal.Round(Value, 2) == Value && Value <= MaxPurchaseValue;
         }
 
         public static bool AreFieldsEmpty0(string Text)

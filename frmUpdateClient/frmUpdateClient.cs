@@ -16,6 +16,7 @@ namespace frmUpdateClient
     {
 
         ClsClient.ClsClient Client0 = new ClsClient.ClsClient();
+        decimal _PurchaseValue; // set by _ValidateUpdateClient
 
         public frmUpdateClient(ClsClient.ClsClient client)
         {
@@ -30,7 +31,8 @@ namespace frmUpdateClient
             txtPhone.Text = Client0.Phone.ToString();
             txtEmail.Text = Client0.Email.ToString();
             txtTotalOrders.Text = Client0.TotalOrders.ToString();
-            txtTotalPurchaseValue.Text = Client0.TotalPurchaseValue.ToString();
+            // Shown in the same format TryParsePurchaseValue accepts (e.g. 700.50), whatever the regional settings.
+            txtTotalPurchaseValue.Text = Client0.TotalPurchaseValue.ToString(System.Globalization.CultureInfo.InvariantCulture);
         }
 
         void DesignTheForm()
@@ -87,9 +89,9 @@ namespace frmUpdateClient
                 MessageBox.Show("Please enter a valid number for Total Orders");
                 return false;
             }
-            if (!ClsBusinessLayer.ClsBusinessLayer.IsValidDecimal(txtTotalPurchaseValue.Text, TotalPurchase))
+            if (!ClsBusinessLayer.ClsBusinessLayer.TryParsePurchaseValue(txtTotalPurchaseValue.Text, out _PurchaseValue))
             {
-                MessageBox.Show("Please enter a valid amount for Total Purchase Value");
+                MessageBox.Show("Please enter a valid purchase value, e.g. 700.50: use a dot as the decimal separator, at most 2 decimal places, up to 99999999.99.");
                 return false;
             }
 
@@ -113,7 +115,7 @@ namespace frmUpdateClient
             Client0.Phone = txtPhone.Text.Trim();
             Client0.Email = txtEmail.Text.Trim();
             Client0.TotalOrders = int.Parse(txtTotalOrders.Text.Trim());
-            Client0.TotalPurchaseValue = decimal.Parse(txtTotalPurchaseValue.Text.Trim());
+            Client0.TotalPurchaseValue = _PurchaseValue;
         }
 
         private void btnUpdateClient_Click(object sender, EventArgs e)

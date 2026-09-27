@@ -89,9 +89,9 @@ namespace nfrmAddNewClient
             }
 
             decimal purchaseValue;
-            if (!decimal.TryParse(txtTotalPurchaseValue.Text.Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out purchaseValue))
+            if (!ClsBusinessLayer.ClsBusinessLayer.TryParsePurchaseValue(txtTotalPurchaseValue.Text, out purchaseValue))
             {
-                MessageBox.Show("Please enter a valid purchase value.");
+                MessageBox.Show("Please enter a valid purchase value, e.g. 700.50: use a dot as the decimal separator, at most 2 decimal places, up to 99999999.99.");
                 return false;
             }
             newClient.TotalPurchaseValue = purchaseValue;
@@ -109,11 +109,6 @@ namespace nfrmAddNewClient
             if (!ClsBusinessLayer.ClsBusinessLayer.IsValidInt(txtTotalOrders.Text, 0))
             {
                 MessageBox.Show("Please enter a valid number for Total Orders");
-                return false;
-            }
-            if (!ClsBusinessLayer.ClsBusinessLayer.IsValidDecimal(txtTotalPurchaseValue.Text, 0))
-            {
-                MessageBox.Show("Please enter a valid amount for Total Purchase Value");
                 return false;
             }
 
