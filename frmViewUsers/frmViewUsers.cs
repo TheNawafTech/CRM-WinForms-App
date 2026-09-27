@@ -65,7 +65,7 @@ namespace frmViewUsers
         {
             label1.BackColor = Color.FromArgb(80, 0, 0, 0); // رمادي شفاف
 
-            switch (ClsBusinessLayer.ClsBusinessLayer.GetAllRecords(ref dt, "SELECT UserID, UserName, FullName, Email, Permissions FROM Users"))
+            switch (ClsBusinessLayer.ClsBusinessLayer.GetAllUsers(ref dt))
             {
                 case ClsBusinessLayer.enOperationStatus.Success:
                     dataGridView1.DataSource = dt;

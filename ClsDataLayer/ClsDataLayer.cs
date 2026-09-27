@@ -16,100 +16,69 @@ namespace nClsDataLayer
     {
         ClsUser _User = new ClsUser();
 
-        string ConnectionString = "Server=.;Database=CRMproject;Integrated Security=True;";
+        // Technical errors are not caught in this layer: they propagate to the business layer,
+        // which reports them as failures. Each helper disposes the objects it creates.
+
+        static void _AddParameters(SqlCommand command, Dictionary<string, object> parameters)
+        {
+            if (parameters == null)
+            {
+                return;
+            }
+
+            foreach (var param in parameters)
+            {
+                command.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value);
+            }
+        }
 
         public static int ConnectDatabaseExcuteNonQuery(string Connection, string Query, Dictionary<string, object> parameters = null)
         {
-            SqlConnection connection = new SqlConnection(Connection);
-            SqlCommand command = new SqlCommand(Query, connection);
-
-            int RowsEffcted = 0;
-
-            if (parameters != null)
+            using (SqlConnection connection = new SqlConnection(Connection))
+            using (SqlCommand command = new SqlCommand(Query, connection))
             {
-                foreach (var param in parameters)
-                {
-                    command.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value);
-                }
-            }
+                _AddParameters(command, parameters);
 
-            try
-            {
                 connection.Open();
-
-                RowsEffcted = command.ExecuteNonQuery();
+                return command.ExecuteNonQuery();
             }
-            catch (Exception ex)
-            {
-                // Handle exception (log it, rethrow it, etc.)
-                Console.WriteLine("Error executing non-query: " + ex.Message);
-            }
-            finally
-            {
-                connection.Close();
-            }
-
-            return RowsEffcted;
         }
 
+        // The returned reader owns the connection (CommandBehavior.CloseConnection); callers dispose the reader.
         public static SqlDataReader ConnectDatabaseExecuteReader(string connectionString, string query, Dictionary<string, object> parameters = null)
         {
             SqlConnection conn = new SqlConnection(connectionString);
-            SqlCommand cmd = new SqlCommand(query, conn);
-
-            // إضافة الـ parameters (إن وجد)
-            if (parameters != null)
-            {
-                foreach (var param in parameters)
-                {
-                    cmd.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value);
-                }
-            }
 
             try
             {
-                conn.Open();
-                return cmd.ExecuteReader(CommandBehavior.CloseConnection); // يغلق الاتصال عند إغلاق reader
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    _AddParameters(cmd, parameters);
+
+                    conn.Open();
+                    return cmd.ExecuteReader(CommandBehavior.CloseConnection); // يغلق الاتصال عند إغلاق reader
+                }
             }
             catch
             {
-                // The caller never gets a reader, so release the connection here and let the
-                // error reach the business layer. Returning null made a failure look like "not found".
+                // The caller never gets a reader, so release the connection before the error propagates.
                 conn.Dispose();
                 throw;
             }
         }
 
+        // Returns the first column of the first row as an int, or 0 when the query returns no value.
         public static int ConnectDataExcuteScalar(string connectionString, string query, Dictionary<string, object> parameters = null)
         {
-            SqlConnection conn = new SqlConnection(connectionString);
-            SqlCommand cmd = new SqlCommand(query, conn);
-
-            // Adding parametrs (if found)
-            if (parameters != null)
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, conn))
             {
-                foreach (var param in parameters)
-                {
-                    cmd.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value);
-                }
-            }
+                _AddParameters(cmd, parameters);
 
-            try
-            {
                 conn.Open();
-
                 object Result = cmd.ExecuteScalar();
 
-                return Convert.ToInt32(Result);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error executing reader: " + ex.Message);
-                return -1;
-            }
-            finally
-            {
-                conn.Close();
+                return Result == null || Result == DBNull.Value ? 0 : Convert.ToInt32(Result);
             }
         }
 
@@ -120,16 +89,7 @@ namespace nClsDataLayer
                 {"@ClientID", ClientID}
             };
 
-            SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAcessSettings.ConnectingCRMproject, "select * from Clients where ClientID = @ClientID", Parameter);
-
-            // A null reader means the query itself failed (e.g. database unavailable).
-            // It is reported as false like "not found"; telling the two apart belongs to the error-handling work.
-            if (reader == null)
-            {
-                return false;
-            }
-
-            using (reader)
+            using (SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAcessSettings.ConnectingCRMproject, "select * from Clients where ClientID = @ClientID", Parameter))
             {
                 if (reader.Read())
                 {
@@ -146,8 +106,20 @@ namespace nClsDataLayer
             return false;
         }
 
+        // The list queries live here instead of arriving as SQL text from the forms.
+        public static bool GetAllClients(ref DataTable Dt)
+        {
+            return _LoadTable(ref Dt, "SELECT ClientID, ClientName, Phone, Email, TotalOrders, TotalPurchaseValue FROM Clients");
+        }
+
+        // Password is deliberately not selected.
+        public static bool GetAllUsers(ref DataTable Dt)
+        {
+            return _LoadTable(ref Dt, "SELECT UserID, UserName, FullName, Email, Permissions FROM Users");
+        }
+
         // Always loads the result, so an empty table still carries its columns. Returns whether any row was found.
-        public static bool GetAllRecords(ref DataTable Dt, string Query)
+        static bool _LoadTable(ref DataTable Dt, string Query)
         {
             using (SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAcessSettings.ConnectingCRMproject, Query))
             {
@@ -166,14 +138,7 @@ namespace nClsDataLayer
                 { "@Phone", client.Phone },{"@Email",client.Email}
             };
 
-            SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
-
-            if (reader == null)
-            {
-                return false;
-            }
-
-            using (reader)
+            using (SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters))
             {
                 return reader.Read();
             }
@@ -190,14 +155,10 @@ namespace nClsDataLayer
                 { "@UserID", UserID }
             };
 
-            SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
-
-            if (reader.Read() && reader != null)
+            using (SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters))
             {
-                return true;
+                return reader.Read();
             }
-
-            return false;
         }
 
         public static bool IsUserNameExsist(string UserName,ClsUser user)
@@ -209,12 +170,10 @@ namespace nClsDataLayer
                 { "@UserName", UserName } , { "@UserID",user.UserID}
             };
 
-            SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
-            if (reader.Read() && reader != null)
+            using (SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters))
             {
-                return true;
+                return reader.Read();
             }
-            return false;
         }
 
 
@@ -228,12 +187,10 @@ namespace nClsDataLayer
                 { "@UserName", UserName }
             };
 
-            SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
-            if (reader.Read() && reader != null)
+            using (SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters))
             {
-                return true;
+                return reader.Read();
             }
-            return false;
         }
 
         // Loads a user by name together with the stored password hash, for login verification.
@@ -247,14 +204,7 @@ namespace nClsDataLayer
                 { "@UserName", UserName }
             };
 
-            SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
-
-            if (reader == null)
-            {
-                return false;
-            }
-
-            using (reader)
+            using (SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters))
             {
                 if (!reader.Read())
                 {
@@ -290,7 +240,7 @@ namespace nClsDataLayer
 
             };
 
-            // ConnectDataExcuteScalar returns -1 on a failed INSERT (and 0 for no result),
+            // A failed INSERT throws; ConnectDataExcuteScalar returns 0 when no identity comes back,
             // so only a positive identity means the row was actually created.
             int NewClientID = ConnectDataExcuteScalar(ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
 
@@ -418,16 +368,17 @@ namespace nClsDataLayer
                 {"@UserID", UserID}
             };
 
-            SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAcessSettings.ConnectingCRMproject, "select UserID, UserName, FullName, Email, Permissions from Users where UserID = @UserID", Parameter);
-
-            if (reader.Read() && reader != null)
+            using (SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAcessSettings.ConnectingCRMproject, "select UserID, UserName, FullName, Email, Permissions from Users where UserID = @UserID", Parameter))
             {
-                user.UserID = (int)reader["UserID"];
-                user.UserName = reader["UserName"].ToString();
-                user.FullName = reader["FullName"].ToString();
-                user.Email = reader["Email"].ToString();
-                user.Permissions = (enPermissions)Enum.Parse(typeof(enPermissions), reader["Permissions"].ToString());
-                return true;
+                if (reader.Read())
+                {
+                    user.UserID = (int)reader["UserID"];
+                    user.UserName = reader["UserName"].ToString();
+                    user.FullName = reader["FullName"].ToString();
+                    user.Email = reader["Email"].ToString();
+                    user.Permissions = (enPermissions)Enum.Parse(typeof(enPermissions), reader["Permissions"].ToString());
+                    return true;
+                }
             }
 
             return false;

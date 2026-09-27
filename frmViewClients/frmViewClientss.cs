@@ -21,7 +21,7 @@ namespace frmViewClients
         public void GetAllClients()
         {
             DataTable Dt = new DataTable();
-            ClsBusinessLayer.enOperationStatus Status = ClsBusinessLayer.ClsBusinessLayer.GetAllRecords(ref Dt, "SELECT * FROM Clients");
+            ClsBusinessLayer.enOperationStatus Status = ClsBusinessLayer.ClsBusinessLayer.GetAllClients(ref Dt);
 
             if (Status == ClsBusinessLayer.enOperationStatus.Failure)
             {

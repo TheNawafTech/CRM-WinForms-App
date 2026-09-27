@@ -66,16 +66,30 @@ namespace ClsBusinessLayer
             return enOperationStatus.Success;
         }
 
-        // Success = rows loaded; NotFound = the query ran but returned no rows (Dt still has the columns).
-        static public enOperationStatus GetAllRecords(ref DataTable Dt, string Query)
+        // Success = rows loaded; NotFound = no clients (Dt still has the columns).
+        static public enOperationStatus GetAllClients(ref DataTable Dt)
         {
             try
             {
-                return ClsDataLayer.GetAllRecords(ref Dt, Query) ? enOperationStatus.Success : enOperationStatus.NotFound;
+                return ClsDataLayer.GetAllClients(ref Dt) ? enOperationStatus.Success : enOperationStatus.NotFound;
             }
             catch (Exception ex)
             {
-                _TraceFailure(nameof(GetAllRecords), ex);
+                _TraceFailure(nameof(GetAllClients), ex);
+                return enOperationStatus.Failure;
+            }
+        }
+
+        // Success = rows loaded; NotFound = no users (Dt still has the columns).
+        static public enOperationStatus GetAllUsers(ref DataTable Dt)
+        {
+            try
+            {
+                return ClsDataLayer.GetAllUsers(ref Dt) ? enOperationStatus.Success : enOperationStatus.NotFound;
+            }
+            catch (Exception ex)
+            {
+                _TraceFailure(nameof(GetAllUsers), ex);
                 return enOperationStatus.Failure;
             }
         }
@@ -111,17 +125,41 @@ namespace ClsBusinessLayer
 
         static public bool RemoveClient(int ClientID)
         {
-            return ClsDataLayer.RemoveClient(ClientID);
+            try
+            {
+                return ClsDataLayer.RemoveClient(ClientID);
+            }
+            catch (Exception ex)
+            {
+                _TraceFailure(nameof(RemoveClient), ex);
+                return false;
+            }
         }
 
         static public bool RemoveUser(int UserID)
         {
-            return ClsDataLayer.RemoveUser(UserID);
+            try
+            {
+                return ClsDataLayer.RemoveUser(UserID);
+            }
+            catch (Exception ex)
+            {
+                _TraceFailure(nameof(RemoveUser), ex);
+                return false;
+            }
         }
 
         static public bool RemoveUser(int UserID, ref ClsUser User)
         {
-            return ClsDataLayer.RemoveUser(UserID, User);
+            try
+            {
+                return ClsDataLayer.RemoveUser(UserID, User);
+            }
+            catch (Exception ex)
+            {
+                _TraceFailure(nameof(RemoveUser), ex);
+                return false;
+            }
         }
 
         public static enOperationStatus GetClient(int ID, ref ClsClient.ClsClient client)
@@ -139,7 +177,15 @@ namespace ClsBusinessLayer
 
         static public bool UpdateClient(ClsClient.ClsClient client)
         {
-            return ClsDataLayer.UpdateClient(client);
+            try
+            {
+                return ClsDataLayer.UpdateClient(client);
+            }
+            catch (Exception ex)
+            {
+                _TraceFailure(nameof(UpdateClient), ex);
+                return false;
+            }
         }
 
         // Success = the user name is already taken by another user; NotFound = it is free.
@@ -176,7 +222,15 @@ namespace ClsBusinessLayer
             string PasswordHash = string.IsNullOrEmpty(user.Password) ? null : PasswordHasher.HashPassword(user.Password);
             user.Password = null;
 
-            return ClsDataLayer.UpdateUser(user, Permissions, PasswordHash);
+            try
+            {
+                return ClsDataLayer.UpdateUser(user, Permissions, PasswordHash);
+            }
+            catch (Exception ex)
+            {
+                _TraceFailure(nameof(UpdateUser), ex);
+                return false;
+            }
         }
 
         // Validation :
