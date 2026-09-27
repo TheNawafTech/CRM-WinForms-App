@@ -31,7 +31,8 @@ namespace frmUpdateUser0
             txtUserName.Text = User.UserName;
             txtFullName.Text = User.FullName;
             txtEmail.Text = User.Email;
-            txtPassword.Text = User.Password;
+            txtPassword.Text = ""; // empty = keep the current password
+            txtPassword.UseSystemPasswordChar = true;
             Permissions = User.Permissions.ToString();
 
             this.ActiveControl = label1;
@@ -52,9 +53,15 @@ namespace frmUpdateUser0
 
         private bool _ValidateUpdateUser()
         {
-            if (!ClsBusinessLayer.ClsBusinessLayer.AreFildsEmpty(txtUserName.Text, txtFullName.Text, txtEmail.Text, txtPassword.Text))
+            if (!ClsBusinessLayer.ClsBusinessLayer.AreFildsEmpty(txtUserName.Text, txtFullName.Text, txtEmail.Text))
             {
                 MessageBox.Show("Please fill all fields.");
+                return false;
+            }
+
+            if (txtPassword.Text.Trim().Length > 0 && txtPassword.Text.Length < 6)
+            {
+                MessageBox.Show("Password must be at least 6 characters long.");
                 return false;
             }
 
@@ -92,7 +99,9 @@ namespace frmUpdateUser0
             {
                 _SaveUpdatedIntoToTheUser();
 
-                Result = MessageBox.Show("Are you sure you want to update User", "Confirm Updating",
+                string PasswordNote = string.IsNullOrEmpty(User.Password) ? "\n\nThe password will remain unchanged." : "\n\nThe password will be changed.";
+
+                Result = MessageBox.Show("Are you sure you want to update User" + PasswordNote, "Confirm Updating",
                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
 
                 if (Result == DialogResult.Yes)

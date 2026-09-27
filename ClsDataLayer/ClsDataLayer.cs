@@ -112,37 +112,6 @@ namespace nClsDataLayer
             }
         }
 
-        public static bool FindUser(ref string UserName, ref string Password, ref enPermissions permissions)
-        {
-            string query = "SELECT * FROM Users WHERE UserName = @UserName AND Password = @Password";
-
-            var parameters = new Dictionary<string, object>
-            {
-
-                { "@UserName", UserName },{ "@Password", Password }
-
-            };
-
-            SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAcessSettings.ConnectingCRMproject, query, parameters);
-
-
-            if (reader.Read() && reader != null)
-            {
-                UserName = reader["UserName"].ToString();
-                Password = reader["Password"].ToString();
-                permissions = (enPermissions)Enum.Parse(typeof(enPermissions), reader["Permissions"].ToString());
-
-
-
-                reader.Close(); // Close the reader after use
-
-                return true;
-
-            }
-            reader?.Close();
-            return false;
-        }
-
         public static bool GetClient(int ClientID, ref ClsClient.ClsClient client)
         {
             var Parameter = new Dictionary<string, object>()
@@ -334,46 +303,38 @@ namespace nClsDataLayer
             return false;
         }
 
-        public static bool IsUserExsist(ref ClsUser User)
+        // Loads a user by name together with the stored password hash, for login verification.
+        // The hash is returned separately so it never ends up on the ClsUser object.
+        public static bool GetUserByUserName(string UserName, ref ClsUser User, ref string PasswordHash)
         {
-            try
+            string Query = "SELECT UserID, UserName, FullName, Email, Password, Permissions FROM Users WHERE UserName = @UserName";
+
+            var parameters = new Dictionary<string, object>
             {
-                string Query = @"SELECT UserID, UserName, FullName, Email, Password, Permissions
-                         FROM Users
-                         WHERE UserName = @UserName AND Password = @Password";
+                { "@UserName", UserName }
+            };
 
-                var parameters = new Dictionary<string, object>
-        {
-            { "@UserName", User.UserName },
-            { "@Password", User.Password }
-        };
+            SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
 
-                SqlDataReader reader = ConnectDatabaseExecuteReader(
-                    ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject,
-                    Query,
-                    parameters
-                );
-
-                if (reader != null && reader.Read())
-                {
-                    User.UserID = (int)reader["UserID"];
-                    User.UserName = reader["UserName"].ToString();
-                    User.FullName = reader["FullName"].ToString();
-                    User.Email = reader["Email"].ToString();
-                    User.Password = reader["Password"].ToString();
-                    User.Permissions = (enPermissions)Enum.Parse(typeof(enPermissions), reader["Permissions"].ToString());
-
-                    reader.Close();
-                    return true;
-                }
-
-                reader?.Close();
+            if (reader == null)
+            {
                 return false;
             }
-            catch (Exception ex)
+
+            using (reader)
             {
-                Console.WriteLine($"Database error: {ex.Message}");
-                return false;
+                if (!reader.Read())
+                {
+                    return false;
+                }
+
+                User.UserID = (int)reader["UserID"];
+                User.UserName = reader["UserName"].ToString();
+                User.FullName = reader["FullName"].ToString();
+                User.Email = reader["Email"].ToString();
+                User.Permissions = (enPermissions)Enum.Parse(typeof(enPermissions), reader["Permissions"].ToString());
+                PasswordHash = reader["Password"].ToString();
+                return true;
             }
         }
         public static bool AddNewClient(ref ClsClient.ClsClient newClient)
@@ -403,7 +364,7 @@ namespace nClsDataLayer
             return true;
         }
 
-        public static bool AddNewUser(ref ClsUser newUser, string Permissions)
+        public static bool AddNewUser(ref ClsUser newUser, string PasswordHash, string Permissions)
         {
             if (IsUserExsist(newUser.UserID))
             {
@@ -416,7 +377,7 @@ namespace nClsDataLayer
             var parameters = new Dictionary<string, object>()
             {
                 {"@UserName",newUser.UserName},{"@FullName",newUser.FullName }
-                ,{"@Email",newUser.Email },{"@Password",newUser.Password }
+                ,{"@Email",newUser.Email },{"@Password",PasswordHash }
                 ,{"@Permissions",Permissions }
             };
 
@@ -480,16 +441,24 @@ namespace nClsDataLayer
             return EffctedRows > 0;
         }
 
-        public static bool UpdateUser(ClsUser UpdatedUser, string Permissions)
+        // A null PasswordHash leaves the stored password untouched.
+        public static bool UpdateUser(ClsUser UpdatedUser, string Permissions, string PasswordHash)
         {
-            string Query = "UPDATE Users SET UserName = @UserName, FullName=@FullName, Email=@Email ,Password=@Password ,Permissions=@Permissions WHERE UserID = @UserID";
+            string Query = PasswordHash == null
+                ? "UPDATE Users SET UserName = @UserName, FullName=@FullName, Email=@Email ,Permissions=@Permissions WHERE UserID = @UserID"
+                : "UPDATE Users SET UserName = @UserName, FullName=@FullName, Email=@Email ,Password=@Password ,Permissions=@Permissions WHERE UserID = @UserID";
 
             var parameters = new Dictionary<string, object>()
             {
                 {"@UserName",UpdatedUser.UserName },{ "@FullName",UpdatedUser.FullName},
-                { "@Email",UpdatedUser.Email},{ "@Password",UpdatedUser.Password},
+                { "@Email",UpdatedUser.Email},
                 { "@Permissions", Permissions} , {"@UserID",UpdatedUser.UserID}
             };
+
+            if (PasswordHash != null)
+            {
+                parameters.Add("@Password", PasswordHash);
+            }
 
             int EffctedRows = ConnectDatabaseExcuteNonQuery(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
 
@@ -503,7 +472,7 @@ namespace nClsDataLayer
                 {"@UserID", UserID}
             };
 
-            SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAcessSettings.ConnectingCRMproject, "select * from Users where UserID = @UserID", Parameter);
+            SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAcessSettings.ConnectingCRMproject, "select UserID, UserName, FullName, Email, Permissions from Users where UserID = @UserID", Parameter);
 
             if (reader.Read() && reader != null)
             {
@@ -511,23 +480,11 @@ namespace nClsDataLayer
                 user.UserName = reader["UserName"].ToString();
                 user.FullName = reader["FullName"].ToString();
                 user.Email = reader["Email"].ToString();
-                user.Password = reader["Password"].ToString();
                 user.Permissions = (enPermissions)Enum.Parse(typeof(enPermissions), reader["Permissions"].ToString());
                 return true;
             }
 
             return false;
-        }
-
-        public static ClsUser GetUser(ref ClsUser user)
-        {          
-
-            if (IsUserExsist(ref user))
-            {
-                return user;
-            }
-
-            return null;
         }
     }
 }

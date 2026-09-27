@@ -25,7 +25,6 @@ namespace frmViewUsers
             dataGridView1.Columns["UserName"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
             dataGridView1.Columns["FullName"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
             dataGridView1.Columns["Email"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            dataGridView1.Columns["Password"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
             dataGridView1.Columns["Permissions"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
 
             dataGridView1.EnableHeadersVisualStyles = false; // Disable default header styles to apply custom styles
@@ -61,7 +60,7 @@ namespace frmViewUsers
         {
             label1.BackColor = Color.FromArgb(80, 0, 0, 0); // رمادي شفاف
 
-            ClsBusinessLayer.ClsBusinessLayer.GetAllRecords(ref dt, "SELECT * FROM Users");
+            ClsBusinessLayer.ClsBusinessLayer.GetAllRecords(ref dt, "SELECT UserID, UserName, FullName, Email, Permissions FROM Users");
             dataGridView1.DataSource = dt;
 
             DesignTheDataGridViewClients();

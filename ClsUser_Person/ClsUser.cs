@@ -19,6 +19,8 @@ namespace ClsUser_Person
         public string UserName { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
+        // Plaintext typed in the UI, only used to pass a new password to the business layer
+        // for hashing. It is never loaded from the database.
         public string Password { get; set; }
         public enPermissions Permissions { get; set; }
 

@@ -41,7 +41,7 @@ CREATE TABLE dbo.Users
     UserName VARCHAR(30) NOT NULL,
     FullName NVARCHAR(50) NOT NULL,
     Email VARCHAR(150) NOT NULL,
-    [Password] VARCHAR(100) NOT NULL,
+    [Password] VARCHAR(256) NOT NULL,
     Permissions VARCHAR(100) NOT NULL,
     CONSTRAINT PK_Users PRIMARY KEY CLUSTERED (UserID ASC)
 );
@@ -84,13 +84,13 @@ GO
 SET IDENTITY_INSERT dbo.Users ON;
 GO
 
--- Demo accounts. Passwords are temporary plaintext demo values (Demo1234) until password hashing is introduced.
+-- Demo accounts. Every demo account's password is Demo1234; only its PBKDF2-SHA256 hash is stored.
 INSERT INTO dbo.Users (UserID, UserName, FullName, Email, [Password], Permissions) VALUES
-(1, 'admin.demo',    N'Admin Demo',           'admin@example.com',    'Demo1234', 'All'),
-(2, 'manager.demo',  N'Sara Manager Demo',    'manager@example.com',  'Demo1234', 'ListClients, AddNewClient, DeleteClient, UpdateClients, FindClient'),
-(3, 'sales.demo',    N'Khalid Sales Sample',  'sales@example.com',    'Demo1234', 'ListClients, AddNewClient, UpdateClients, FindClient'),
-(4, 'viewer.demo',   N'Noura Viewer Test',    'viewer@example.com',   'Demo1234', 'ListClients, FindClient'),
-(5, 'support.demo',  N'Omar Support Demo',    'support@example.com',  'Demo1234', 'FindClient, ManageUsers');
+(1, 'admin.demo',    N'Admin Demo',           'admin@example.com',    'PBKDF2-SHA256$100000$K1X+CW+h9F5NDdFEklkW0Q==$96pVr5BB7NUslQwhtgAMsWX5LBwI8ivUE/hmzPJ1s94=', 'All'),
+(2, 'manager.demo',  N'Sara Manager Demo',    'manager@example.com',  'PBKDF2-SHA256$100000$EMMX844NFVaR7x0eqgq+rw==$vkaSnsi9TrmlRDyy1ThFfoTQHDd0bdxtED4bwrkEikE=', 'ListClients, AddNewClient, DeleteClient, UpdateClients, FindClient'),
+(3, 'sales.demo',    N'Khalid Sales Sample',  'sales@example.com',    'PBKDF2-SHA256$100000$l3L2fC+DXoGNwv+ssOcc3g==$GVLPBLIPL2vK5AD2IjgUZPtNE3I/GiXIVOOiDxQrJ3k=', 'ListClients, AddNewClient, UpdateClients, FindClient'),
+(4, 'viewer.demo',   N'Noura Viewer Test',    'viewer@example.com',   'PBKDF2-SHA256$100000$R9xIxvDEz8UvcAbVkQffsg==$8TAflx1X2HrnLeQaBm8WZ++qxMImjTLk58Ai9dDPxx4=', 'ListClients, FindClient'),
+(5, 'support.demo',  N'Omar Support Demo',    'support@example.com',  'PBKDF2-SHA256$100000$wrCIgnEYrhtLmVslsdcPxA==$IypcDRuVCrix+q9iURpA0m6luj0Qm2f2O9ua1pZpqZs=', 'FindClient, ManageUsers');
 
 SET IDENTITY_INSERT dbo.Users OFF;
 GO

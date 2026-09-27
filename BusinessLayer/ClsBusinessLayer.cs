@@ -16,12 +16,20 @@ namespace ClsBusinessLayer
     {
         ClsUser User = new ClsUser();
 
+        // The DAL only looks the user up by name; the password is verified here, never in SQL.
         static public ClsUser LogInUser(ref string username, ref string password, ref ClsUser user)
         {
-            user.UserName = username;
-            user.Password = password;
+            ClsUser candidate = new ClsUser();
+            string PasswordHash = null;
 
-            return ClsDataLayer.GetUser(ref user);
+            if (!ClsDataLayer.GetUserByUserName(username, ref candidate, ref PasswordHash)
+                || !PasswordHasher.VerifyPassword(password, PasswordHash))
+            {
+                return null;
+            }
+
+            user = candidate;
+            return user;
         }
 
         static public bool GetAllRecords(ref DataTable Dt, string Query)
@@ -36,7 +44,10 @@ namespace ClsBusinessLayer
 
         static public bool AddNewUser(ref ClsUser user, string Permissions)
         {
-            return ClsDataLayer.AddNewUser(ref user, Permissions);
+            string PasswordHash = PasswordHasher.HashPassword(user.Password);
+            user.Password = null;
+
+            return ClsDataLayer.AddNewUser(ref user, PasswordHash, Permissions);
         }
 
         static public bool RemoveClient(int ClientID)
@@ -88,9 +99,13 @@ namespace ClsBusinessLayer
             return ClsDataLayer.IsUserNameExsist(UserName);
         }
 
+        // An empty user.Password keeps the current password unchanged.
         static public bool UpdateUser(ClsUser user, string Permissions)
         {
-            return ClsDataLayer.UpdateUser(user, Permissions);
+            string PasswordHash = string.IsNullOrEmpty(user.Password) ? null : PasswordHasher.HashPassword(user.Password);
+            user.Password = null;
+
+            return ClsDataLayer.UpdateUser(user, Permissions, PasswordHash);
         }
 
         // Validation :

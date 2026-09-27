@@ -38,6 +38,7 @@ namespace frmAddNewUser
 
             txtPassword.Text = "Enter Password..";
             txtPassword.ForeColor = Color.Gray;
+            txtPassword.UseSystemPasswordChar = false; // keep the placeholder readable
 
             this.ActiveControl = label1;
 
@@ -99,6 +100,7 @@ namespace frmAddNewUser
 
             txtPassword.Text = ClsBusinessLayer.ClsBusinessLayer.txtEnter(txtPassword.Text, TheTextOfPlaceholde);
             txtPassword.ForeColor = Color.Black;
+            txtPassword.UseSystemPasswordChar = true;
 
         }
 
@@ -110,6 +112,7 @@ namespace frmAddNewUser
             txtPassword.Text = ClsBusinessLayer.ClsBusinessLayer.txtLeave(txtPassword.Text, TheTextOfPlaceholde);
 
             txtPassword.ForeColor = (string.IsNullOrEmpty(txtPassword.Text) || txtPassword.Text == TheTextOfPlaceholde) ? Color.Gray : Color.Black;
+            txtPassword.UseSystemPasswordChar = txtPassword.Text != TheTextOfPlaceholde;
         }
 
         private bool _ValidateAddNewUser()
