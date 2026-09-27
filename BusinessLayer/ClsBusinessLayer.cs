@@ -46,7 +46,7 @@ namespace ClsBusinessLayer
 
             try
             {
-                if (!ClsDataLayer.GetUserByUserName(UserName, ref candidate, ref PasswordHash))
+                if (!ClsDataLayer.GetUserByUserName(UserName?.Trim(), ref candidate, ref PasswordHash))
                 {
                     return enOperationStatus.NotFound;
                 }
@@ -107,14 +107,22 @@ namespace ClsBusinessLayer
             }
         }
 
+        // User names are unique, compared case-insensitively like the database collation.
+        // The UNIQUE constraint on Users.UserName is the final guard against concurrent inserts.
         static public bool AddNewUser(ref ClsUser user, string Permissions)
         {
-            string PasswordHash = PasswordHasher.HashPassword(user.Password);
+            user.UserName = user.UserName?.Trim();
+            string Password = user.Password;
             user.Password = null;
 
             try
             {
-                return ClsDataLayer.AddNewUser(ref user, PasswordHash, Permissions);
+                if (ClsDataLayer.IsUserNameExsist(user.UserName))
+                {
+                    return false;
+                }
+
+                return ClsDataLayer.AddNewUser(ref user, PasswordHasher.HashPassword(Password), Permissions);
             }
             catch (Exception ex)
             {
@@ -193,7 +201,7 @@ namespace ClsBusinessLayer
         {
             try
             {
-                return ClsDataLayer.IsUserNameExsist(UserName, user) ? enOperationStatus.Success : enOperationStatus.NotFound;
+                return ClsDataLayer.IsUserNameExsist(UserName?.Trim(), user) ? enOperationStatus.Success : enOperationStatus.NotFound;
             }
             catch (Exception ex)
             {
@@ -207,7 +215,7 @@ namespace ClsBusinessLayer
         {
             try
             {
-                return ClsDataLayer.IsUserNameExsist(UserName) ? enOperationStatus.Success : enOperationStatus.NotFound;
+                return ClsDataLayer.IsUserNameExsist(UserName?.Trim()) ? enOperationStatus.Success : enOperationStatus.NotFound;
             }
             catch (Exception ex)
             {
@@ -217,13 +225,20 @@ namespace ClsBusinessLayer
         }
 
         // An empty user.Password keeps the current password unchanged.
+        // The user name may stay the same, but must not belong to another user.
         static public bool UpdateUser(ClsUser user, string Permissions)
         {
+            user.UserName = user.UserName?.Trim();
             string PasswordHash = string.IsNullOrEmpty(user.Password) ? null : PasswordHasher.HashPassword(user.Password);
             user.Password = null;
 
             try
             {
+                if (ClsDataLayer.IsUserNameExsist(user.UserName, user))
+                {
+                    return false;
+                }
+
                 return ClsDataLayer.UpdateUser(user, Permissions, PasswordHash);
             }
             catch (Exception ex)

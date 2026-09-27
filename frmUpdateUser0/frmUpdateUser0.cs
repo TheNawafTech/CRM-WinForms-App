@@ -71,7 +71,7 @@ namespace frmUpdateUser0
                 return false;
             }
 
-            switch (ClsBusinessLayer.ClsBusinessLayer.IsUerNameExsist(txtUserName.Text, User))
+            switch (ClsBusinessLayer.ClsBusinessLayer.IsUerNameExsist(txtUserName.Text.Trim(), User))
             {
                 case ClsBusinessLayer.enOperationStatus.Success:
                     MessageBox.Show("This User Name already exists, please choose another one.", "User Name Exists", MessageBoxButtons.OK, MessageBoxIcon.Warning);

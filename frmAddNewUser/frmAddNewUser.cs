@@ -117,7 +117,7 @@ namespace frmAddNewUser
 
         private bool _ValidateAddNewUser()
         {
-            switch (ClsBusinessLayer.ClsBusinessLayer.IsUerNameExsist(txtUserName.Text))
+            switch (ClsBusinessLayer.ClsBusinessLayer.IsUerNameExsist(txtUserName.Text.Trim()))
             {
                 case ClsBusinessLayer.enOperationStatus.Success:
                     MessageBox.Show("This User Name already exists, please choose another one.", "User Name Exists", MessageBoxButtons.OK, MessageBoxIcon.Warning);

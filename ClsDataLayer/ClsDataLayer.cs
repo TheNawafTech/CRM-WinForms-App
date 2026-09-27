@@ -144,23 +144,6 @@ namespace nClsDataLayer
             }
         }
 
-        public static bool IsUserExsist(int UserID)
-        {
-            // We will do it here also :
-
-            string Query = "SELECT * FROM Users where UserID =@UserID";
-
-            var parameters = new Dictionary<string, object>
-            {
-                { "@UserID", UserID }
-            };
-
-            using (SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters))
-            {
-                return reader.Read();
-            }
-        }
-
         public static bool IsUserNameExsist(string UserName,ClsUser user)
         {
             // We will do it here also :
@@ -254,13 +237,9 @@ namespace nClsDataLayer
             return true;
         }
 
+        // The user-name uniqueness check lives in the business layer; UQ_Users_UserName rejects any duplicate that slips through.
         public static bool AddNewUser(ref ClsUser newUser, string PasswordHash, string Permissions)
         {
-            if (IsUserExsist(newUser.UserID))
-            {
-                return false; // User already exists
-            }
-
             string Query = "INSERT INTO Users (UserName, FullName, Email, Password, Permissions) " +
                 "VALUES (@UserName, @FullName, @Email, @Password, @Permissions); "
                 + "SELECT SCOPE_IDENTITY();";
