@@ -153,7 +153,7 @@ namespace nfrmAddNewClient
                 }
                 else
                 {
-                    MessageBox.Show("Failed to add new client.\nThe phone number or email might already exist. Please try again.");
+                    MessageBox.Show("Failed to add new client.\nThe phone number or email might already exist, or a value could not be saved. Please try again.");
                 }
             }
         }

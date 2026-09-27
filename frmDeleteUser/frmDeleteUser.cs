@@ -50,10 +50,15 @@ namespace frmDeleteUser
 
                 if (Result == DialogResult.OK)
                 {
-                    ClsBusinessLayer.ClsBusinessLayer.RemoveUser(int.Parse(textBox1.Text));
-                    
-                    MessageBox.Show("User removed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Close();
+                    if (ClsBusinessLayer.ClsBusinessLayer.RemoveUser(int.Parse(textBox1.Text)))
+                    {
+                        MessageBox.Show("User removed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unable to remove the user. The record was not deleted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
             else

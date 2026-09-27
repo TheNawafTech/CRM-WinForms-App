@@ -357,9 +357,16 @@ namespace nClsDataLayer
 
             };
 
-            int rowsAffected = ConnectDataExcuteScalar(ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
+            // ConnectDataExcuteScalar returns -1 on a failed INSERT (and 0 for no result),
+            // so only a positive identity means the row was actually created.
+            int NewClientID = ConnectDataExcuteScalar(ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
 
-            newClient.ClientID = rowsAffected;
+            if (NewClientID <= 0)
+            {
+                return false;
+            }
+
+            newClient.ClientID = NewClientID;
 
             return true;
         }
@@ -381,9 +388,15 @@ namespace nClsDataLayer
                 ,{"@Permissions",Permissions }
             };
 
-            int rowsAffected = ConnectDataExcuteScalar(ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
+            // Same contract as AddNewClient: only a positive identity is a successful INSERT.
+            int NewUserID = ConnectDataExcuteScalar(ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
 
-            newUser.UserID = rowsAffected;
+            if (NewUserID <= 0)
+            {
+                return false;
+            }
+
+            newUser.UserID = NewUserID;
 
             return true;
         }

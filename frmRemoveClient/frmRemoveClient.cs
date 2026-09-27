@@ -92,10 +92,15 @@ namespace frmRemoveClient
 
                 if (Result == DialogResult.OK)
                 {
-                    ClsBusinessLayer.ClsBusinessLayer.RemoveClient(int.Parse(textBox1.Text));
-                  
-                    MessageBox.Show("Client removed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Close();
+                    if (ClsBusinessLayer.ClsBusinessLayer.RemoveClient(int.Parse(textBox1.Text)))
+                    {
+                        MessageBox.Show("Client removed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unable to remove the client. The record was not deleted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
             else
