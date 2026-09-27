@@ -62,7 +62,7 @@
             this.lbTitle.ForeColor = System.Drawing.Color.White;
             this.lbTitle.Location = new System.Drawing.Point(273, 22);
             this.lbTitle.Name = "lbTitle";
-            this.lbTitle.Size = new System.Drawing.Size(562, 60);
+            this.lbTitle.Size = new System.Drawing.Size(562, 64);
             this.lbTitle.TabIndex = 0;
             this.lbTitle.Text = "Client Management Panel";
             // 
