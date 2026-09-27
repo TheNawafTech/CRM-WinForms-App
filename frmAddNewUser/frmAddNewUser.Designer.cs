@@ -213,7 +213,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
             this.Name = "frmAddNewUser";
-            this.Text = "Form1";
+            this.Text = "CRM - Add User";
             this.Load += new System.EventHandler(this.frmAddNewUser_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

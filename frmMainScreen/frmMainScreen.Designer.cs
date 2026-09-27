@@ -287,7 +287,7 @@
             this.Controls.Add(this.btnViewClients);
             this.Controls.Add(this.lbTitle);
             this.Name = "frmMainScreen";
-            this.Text = "Form1";
+            this.Text = "CRM - Main";
             this.Load += new System.EventHandler(this.frmMainScreen_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();

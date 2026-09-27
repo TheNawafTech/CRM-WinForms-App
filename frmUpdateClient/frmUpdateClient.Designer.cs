@@ -211,7 +211,7 @@
             this.Controls.Add(this.lbClientName);
             this.Controls.Add(this.label1);
             this.Name = "frmUpdateClient";
-            this.Text = "Form1";
+            this.Text = "CRM - Update Client";
             this.Load += new System.EventHandler(this.frmUpdateClient_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

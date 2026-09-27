@@ -105,7 +105,7 @@
             this.Controls.Add(this.txtClientID);
             this.Controls.Add(this.label1);
             this.Name = "frmUpdateClient_FindClientFirst";
-            this.Text = "Form1";
+            this.Text = "CRM - Find Client to Update";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

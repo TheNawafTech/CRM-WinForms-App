@@ -79,7 +79,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
             this.Name = "frmViewUsers";
-            this.Text = "Form1";
+            this.Text = "CRM - View Users";
             this.Load += new System.EventHandler(this.frmViewUsers_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

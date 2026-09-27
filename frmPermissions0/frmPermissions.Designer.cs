@@ -160,7 +160,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lbSelectPermissions);
             this.Name = "frmPermissions";
-            this.Text = "Form1";
+            this.Text = "CRM - User Permissions";
             this.Load += new System.EventHandler(this.frmPermissions_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

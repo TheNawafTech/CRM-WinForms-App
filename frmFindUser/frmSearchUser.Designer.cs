@@ -106,7 +106,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
             this.Name = "frmSearchUser";
-            this.Text = "Form1";
+            this.Text = "CRM - Find User";
             this.Load += new System.EventHandler(this.frmSearchUser_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

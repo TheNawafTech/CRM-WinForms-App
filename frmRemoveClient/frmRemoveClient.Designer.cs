@@ -110,7 +110,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
             this.Name = "frmRemoveClient";
-            this.Text = "Form1";
+            this.Text = "CRM - Delete Client";
             this.Load += new System.EventHandler(this.frmRemoveClient_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

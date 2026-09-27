@@ -108,7 +108,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
             this.Name = "frmDeleteUser";
-            this.Text = "Form1";
+            this.Text = "CRM - Delete User";
             this.Load += new System.EventHandler(this.frmDeleteUser_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

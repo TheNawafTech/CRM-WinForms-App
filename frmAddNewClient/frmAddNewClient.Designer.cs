@@ -205,7 +205,7 @@
             this.Controls.Add(this.lbClientName);
             this.Controls.Add(this.label1);
             this.Name = "frmAddNewClient";
-            this.Text = "Form1";
+            this.Text = "CRM - Add Client";
             this.Load += new System.EventHandler(this.frnAddNewClient_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

@@ -105,7 +105,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lbUpdateUser);
             this.Name = "FrmFindAndUpdate";
-            this.Text = "FrmFindAndUpdate";
+            this.Text = "CRM - Find User to Update";
             this.Load += new System.EventHandler(this.FrmFindAndUpdate_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
