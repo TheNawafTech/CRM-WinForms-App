@@ -21,17 +21,24 @@ namespace frmViewClients
         public void GetAllClients()
         {
             DataTable Dt = new DataTable();
-            if (ClsBusinessLayer.ClsBusinessLayer.GetAllRecords(ref Dt, "SELECT * FROM Clients"))
+            ClsBusinessLayer.enOperationStatus Status = ClsBusinessLayer.ClsBusinessLayer.GetAllRecords(ref Dt, "SELECT * FROM Clients");
+
+            if (Status == ClsBusinessLayer.enOperationStatus.Failure)
             {
-                dataGridView1.DataSource = Dt;
-                dataGridView1.Columns["ClientID"].HeaderText = "Client ID"; // Hide ClientID column
-                dataGridView1.Columns["ClientName"].HeaderText = "Client Name"; // Rename column header
-                dataGridView1.Columns["Phone"].HeaderText = "Phone"; // Rename column header
-                dataGridView1.Columns["Email"].HeaderText = "Email"; // Rename column header
-                dataGridView1.Columns["TotalOrders"].HeaderText = "Total Orders"; // Rename column header
-                dataGridView1.Columns["TotalPurchaseValue"].HeaderText = "Total Purchase Value"; // Rename column header
+                MessageBox.Show(ClsBusinessLayer.ClsBusinessLayer.SystemErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            else
+
+            // Success and NotFound both return the table's columns, so the grid is set up either way.
+            dataGridView1.DataSource = Dt;
+            dataGridView1.Columns["ClientID"].HeaderText = "Client ID"; // Hide ClientID column
+            dataGridView1.Columns["ClientName"].HeaderText = "Client Name"; // Rename column header
+            dataGridView1.Columns["Phone"].HeaderText = "Phone"; // Rename column header
+            dataGridView1.Columns["Email"].HeaderText = "Email"; // Rename column header
+            dataGridView1.Columns["TotalOrders"].HeaderText = "Total Orders"; // Rename column header
+            dataGridView1.Columns["TotalPurchaseValue"].HeaderText = "Total Purchase Value"; // Rename column header
+
+            if (Status == ClsBusinessLayer.enOperationStatus.NotFound)
             {
                 MessageBox.Show("No clients found.");
             }

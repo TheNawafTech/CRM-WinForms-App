@@ -54,8 +54,8 @@ namespace CRM_WinForms
             label1.BackColor = Color.Transparent;
             label2.BackColor = Color.Transparent;
 
-            label1.BackColor = Color.FromArgb(80, 0, 0, 0); // ÑãÇÏí ÔÝÇÝ
-            label2.BackColor = Color.FromArgb(80, 0, 0, 0); // ÑãÇÏí ÔÝÇÝ
+            label1.BackColor = Color.FromArgb(80, 0, 0, 0); // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            label2.BackColor = Color.FromArgb(80, 0, 0, 0); // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 
             txtUsername.Text = "Enter Username";
@@ -82,16 +82,22 @@ namespace CRM_WinForms
                 return;
             }
 
-            if (ClsBusinessLayer.ClsBusinessLayer.LogInUser(ref txtUsername, ref txtPassword, ref User) != null)
+            switch (ClsBusinessLayer.ClsBusinessLayer.LogInUser(txtUsername, txtPassword, ref User))
             {
-                nfrmMainScreen.frmMainScreen MainScreen = new nfrmMainScreen.frmMainScreen(ref User);
+                case ClsBusinessLayer.enOperationStatus.Success:
+                    nfrmMainScreen.frmMainScreen MainScreen = new nfrmMainScreen.frmMainScreen(ref User);
 
-                MainScreen.ShowDialog();
+                    MainScreen.ShowDialog();
+                    break;
 
-            }
-            else
-            {
-                MessageBox.Show("Invalid Username or Password. Please try again.");
+                case ClsBusinessLayer.enOperationStatus.NotFound:
+                    MessageBox.Show("Invalid Username or Password. Please try again.");
+                    break;
+
+                default:
+                    // The credentials could not be checked, so do not claim they are wrong.
+                    MessageBox.Show("Unable to complete sign-in due to a system error. Please try again.");
+                    break;
             }
         }
     }

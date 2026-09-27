@@ -36,13 +36,19 @@ namespace frmDeleteUser
                 return false;
             }
 
-            if (!ClsBusinessLayer.ClsBusinessLayer.IsUserExsist(_UserID, ref User))
+            switch (ClsBusinessLayer.ClsBusinessLayer.GetUser(_UserID, ref User))
             {
-                MessageBox.Show("Failed to remove User. Please check the User ID and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
+                case ClsBusinessLayer.enOperationStatus.Success:
+                    return true;
 
-            return true;
+                case ClsBusinessLayer.enOperationStatus.NotFound:
+                    MessageBox.Show("Failed to remove User. Please check the User ID and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+
+                default:
+                    MessageBox.Show(ClsBusinessLayer.ClsBusinessLayer.SystemErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+            }
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)

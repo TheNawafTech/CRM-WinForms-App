@@ -71,10 +71,15 @@ namespace frmUpdateUser0
                 return false;
             }
 
-            if (ClsBusinessLayer.ClsBusinessLayer.IsUerNameExsist(txtUserName.Text, User)) 
+            switch (ClsBusinessLayer.ClsBusinessLayer.IsUerNameExsist(txtUserName.Text, User))
             {
-                MessageBox.Show("This User Name already exists, please choose another one.", "User Name Exists", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
+                case ClsBusinessLayer.enOperationStatus.Success:
+                    MessageBox.Show("This User Name already exists, please choose another one.", "User Name Exists", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+
+                case ClsBusinessLayer.enOperationStatus.Failure:
+                    MessageBox.Show(ClsBusinessLayer.ClsBusinessLayer.SystemErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
             }
 
             return true;

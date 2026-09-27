@@ -21,11 +21,16 @@ namespace frmViewUsers
         {
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 12, FontStyle.Bold);
-            dataGridView1.Columns["UserID"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            dataGridView1.Columns["UserName"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            dataGridView1.Columns["FullName"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            dataGridView1.Columns["Email"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            dataGridView1.Columns["Permissions"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+
+            // The grid has no columns when the users could not be loaded.
+            if (dataGridView1.Columns.Contains("UserID"))
+            {
+                dataGridView1.Columns["UserID"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+                dataGridView1.Columns["UserName"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+                dataGridView1.Columns["FullName"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+                dataGridView1.Columns["Email"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+                dataGridView1.Columns["Permissions"].DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+            }
 
             dataGridView1.EnableHeadersVisualStyles = false; // Disable default header styles to apply custom styles
             dataGridView1.BorderStyle = BorderStyle.None; // Remove border for a cleaner look
@@ -60,8 +65,21 @@ namespace frmViewUsers
         {
             label1.BackColor = Color.FromArgb(80, 0, 0, 0); // رمادي شفاف
 
-            ClsBusinessLayer.ClsBusinessLayer.GetAllRecords(ref dt, "SELECT UserID, UserName, FullName, Email, Permissions FROM Users");
-            dataGridView1.DataSource = dt;
+            switch (ClsBusinessLayer.ClsBusinessLayer.GetAllRecords(ref dt, "SELECT UserID, UserName, FullName, Email, Permissions FROM Users"))
+            {
+                case ClsBusinessLayer.enOperationStatus.Success:
+                    dataGridView1.DataSource = dt;
+                    break;
+
+                case ClsBusinessLayer.enOperationStatus.NotFound:
+                    dataGridView1.DataSource = dt; // empty, but with the columns
+                    MessageBox.Show("No users found.");
+                    break;
+
+                default:
+                    MessageBox.Show(ClsBusinessLayer.ClsBusinessLayer.SystemErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+            }
 
             DesignTheDataGridViewClients();
 

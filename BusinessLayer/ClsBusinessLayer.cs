@@ -3,6 +3,7 @@ using nClsDataLayer;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -13,34 +14,83 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace ClsBusinessLayer
 {
+    // Outcome of a read. NotFound means the query ran and found nothing;
+    // Failure means the database could not be read at all.
+    public enum enOperationStatus
+    {
+        Success,
+        NotFound,
+        Failure
+    }
+
     public class ClsBusinessLayer
     {
         ClsUser User = new ClsUser();
 
+        // Shown by the UI for enOperationStatus.Failure. Technical details only go to Trace.
+        public const string SystemErrorMessage = "A system error occurred while accessing the database. Please try again.";
+
+        // The data layer lets technical exceptions propagate; this layer is where they are
+        // recorded and turned into a Failure result, so they never reach the UI.
+        static void _TraceFailure(string Operation, Exception ex)
+        {
+            Trace.TraceError("{0} failed: {1}", Operation, ex);
+        }
+
         // The DAL only looks the user up by name; the password is verified here, never in SQL.
-        static public ClsUser LogInUser(ref string username, ref string password, ref ClsUser user)
+        // NotFound = unknown user name or wrong password; Failure = the check could not run.
+        static public enOperationStatus LogInUser(string UserName, string Password, ref ClsUser User)
         {
             ClsUser candidate = new ClsUser();
             string PasswordHash = null;
 
-            if (!ClsDataLayer.GetUserByUserName(username, ref candidate, ref PasswordHash)
-                || !PasswordHasher.VerifyPassword(password, PasswordHash))
+            try
             {
-                return null;
+                if (!ClsDataLayer.GetUserByUserName(UserName, ref candidate, ref PasswordHash))
+                {
+                    return enOperationStatus.NotFound;
+                }
+            }
+            catch (Exception ex)
+            {
+                _TraceFailure(nameof(LogInUser), ex);
+                return enOperationStatus.Failure;
             }
 
-            user = candidate;
-            return user;
+            if (!PasswordHasher.VerifyPassword(Password, PasswordHash))
+            {
+                return enOperationStatus.NotFound;
+            }
+
+            User = candidate;
+            return enOperationStatus.Success;
         }
 
-        static public bool GetAllRecords(ref DataTable Dt, string Query)
+        // Success = rows loaded; NotFound = the query ran but returned no rows (Dt still has the columns).
+        static public enOperationStatus GetAllRecords(ref DataTable Dt, string Query)
         {
-            return ClsDataLayer.GetAllRecords(ref Dt, Query);
+            try
+            {
+                return ClsDataLayer.GetAllRecords(ref Dt, Query) ? enOperationStatus.Success : enOperationStatus.NotFound;
+            }
+            catch (Exception ex)
+            {
+                _TraceFailure(nameof(GetAllRecords), ex);
+                return enOperationStatus.Failure;
+            }
         }
 
         static public bool AddNewClient(ClsClient.ClsClient newClient)
         {
-            return ClsDataLayer.AddNewClient(ref newClient);
+            try
+            {
+                return ClsDataLayer.AddNewClient(ref newClient);
+            }
+            catch (Exception ex)
+            {
+                _TraceFailure(nameof(AddNewClient), ex);
+                return false;
+            }
         }
 
         static public bool AddNewUser(ref ClsUser user, string Permissions)
@@ -48,7 +98,15 @@ namespace ClsBusinessLayer
             string PasswordHash = PasswordHasher.HashPassword(user.Password);
             user.Password = null;
 
-            return ClsDataLayer.AddNewUser(ref user, PasswordHash, Permissions);
+            try
+            {
+                return ClsDataLayer.AddNewUser(ref user, PasswordHash, Permissions);
+            }
+            catch (Exception ex)
+            {
+                _TraceFailure(nameof(AddNewUser), ex);
+                return false;
+            }
         }
 
         static public bool RemoveClient(int ClientID)
@@ -66,23 +124,17 @@ namespace ClsBusinessLayer
             return ClsDataLayer.RemoveUser(UserID, User);
         }
 
-        public static bool GetClient(int ID, ref ClsClient.ClsClient client)
+        public static enOperationStatus GetClient(int ID, ref ClsClient.ClsClient client)
         {
-            return ClsDataLayer.GetClient(ID, ref client);
-        }
-
-        public static bool IsClientExsist(int ClientID)
-        {
-            return ClsDataLayer.IsClientExsist(ClientID);
-        }
-        public static bool IsClientExsist(int ClientID, ref ClsClient.ClsClient client)
-        {
-            return ClsDataLayer.IsClientExsist(ClientID, ref client);
-        }
-
-        public static bool IsUserExsist(int UserID, ref ClsUser User)
-        {
-            return ClsDataLayer.IsUserExsist(UserID, ref User);
+            try
+            {
+                return ClsDataLayer.GetClient(ID, ref client) ? enOperationStatus.Success : enOperationStatus.NotFound;
+            }
+            catch (Exception ex)
+            {
+                _TraceFailure(nameof(GetClient), ex);
+                return enOperationStatus.Failure;
+            }
         }
 
         static public bool UpdateClient(ClsClient.ClsClient client)
@@ -90,14 +142,32 @@ namespace ClsBusinessLayer
             return ClsDataLayer.UpdateClient(client);
         }
 
-        static public bool IsUerNameExsist(string UserName, ClsUser user)
+        // Success = the user name is already taken by another user; NotFound = it is free.
+        static public enOperationStatus IsUerNameExsist(string UserName, ClsUser user)
         {
-            return ClsDataLayer.IsUserNameExsist(UserName, user);
+            try
+            {
+                return ClsDataLayer.IsUserNameExsist(UserName, user) ? enOperationStatus.Success : enOperationStatus.NotFound;
+            }
+            catch (Exception ex)
+            {
+                _TraceFailure(nameof(IsUerNameExsist), ex);
+                return enOperationStatus.Failure;
+            }
         }
 
-        static public bool IsUerNameExsist(string UserName)
+        // Success = the user name is already taken; NotFound = it is free.
+        static public enOperationStatus IsUerNameExsist(string UserName)
         {
-            return ClsDataLayer.IsUserNameExsist(UserName);
+            try
+            {
+                return ClsDataLayer.IsUserNameExsist(UserName) ? enOperationStatus.Success : enOperationStatus.NotFound;
+            }
+            catch (Exception ex)
+            {
+                _TraceFailure(nameof(IsUerNameExsist), ex);
+                return enOperationStatus.Failure;
+            }
         }
 
         // An empty user.Password keeps the current password unchanged.
@@ -159,14 +229,17 @@ namespace ClsBusinessLayer
             return (string.IsNullOrEmpty(Text) ? placeholder : Text);
         }
 
-        static public bool GetUser(int UserID, ref ClsUser user)
+        static public enOperationStatus GetUser(int UserID, ref ClsUser user)
         {
-            return ClsDataLayer.GetUser(UserID, ref user);
-        }
-
-        static public bool IsUserExsist(int UserID)
-        {
-            return ClsDataLayer.IsUserExsist(UserID);
+            try
+            {
+                return ClsDataLayer.GetUser(UserID, ref user) ? enOperationStatus.Success : enOperationStatus.NotFound;
+            }
+            catch (Exception ex)
+            {
+                _TraceFailure(nameof(GetUser), ex);
+                return enOperationStatus.Failure;
+            }
         }
 
         public static bool AreFildsEmpty(params string[] Filds)

@@ -55,14 +55,7 @@ namespace frmSearchClient
                 txtClientID.Focus();
                 return false;
             }
-            
-            // Check if the client exists
-            if (!ClsBusinessLayer.ClsBusinessLayer.IsClientExsist(int.Parse(txtClientID.Text)))
-            {
-                MessageBox.Show("Client does not exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtClientID.Focus();
-                return false;
-            }
+
             return true;
         }
 
@@ -72,14 +65,21 @@ namespace frmSearchClient
                 return;
 
             ClsClient.ClsClient client = new ClsClient.ClsClient();
-           
-            if (ClsBusinessLayer.ClsBusinessLayer.GetClient(int.Parse(txtClientID.Text), ref client)) 
+
+            switch (ClsBusinessLayer.ClsBusinessLayer.GetClient(int.Parse(txtClientID.Text), ref client))
             {
-                MessageBox.Show($"Client Found:\n\nID: {client.ClientID}\nName: {client.ClientName}\nEmail: {client.Email}\nPhone: {client.Phone}", "Client Details", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("Client not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                case ClsBusinessLayer.enOperationStatus.Success:
+                    MessageBox.Show($"Client Found:\n\nID: {client.ClientID}\nName: {client.ClientName}\nEmail: {client.Email}\nPhone: {client.Phone}", "Client Details", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+
+                case ClsBusinessLayer.enOperationStatus.NotFound:
+                    MessageBox.Show("Client does not exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtClientID.Focus();
+                    break;
+
+                default:
+                    MessageBox.Show(ClsBusinessLayer.ClsBusinessLayer.SystemErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
             }
         }
     }

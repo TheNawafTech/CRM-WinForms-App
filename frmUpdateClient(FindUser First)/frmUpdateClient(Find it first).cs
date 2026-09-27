@@ -59,14 +59,20 @@ namespace frmUpdateClient_FindUser_First_
 
             if (_Validate())
             {
-                if (ClsBusinessLayer.ClsBusinessLayer.GetClient(int.Parse(txtClientID.Text.Trim()), ref client)) 
+                switch (ClsBusinessLayer.ClsBusinessLayer.GetClient(int.Parse(txtClientID.Text.Trim()), ref client))
                 {
-                    frmUpdateClient.frmUpdateClient frm = new frmUpdateClient.frmUpdateClient(client);
-                    frm.ShowDialog();
-                }
-                else
-                {
-                    MessageBox.Show("Client not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    case ClsBusinessLayer.enOperationStatus.Success:
+                        frmUpdateClient.frmUpdateClient frm = new frmUpdateClient.frmUpdateClient(client);
+                        frm.ShowDialog();
+                        break;
+
+                    case ClsBusinessLayer.enOperationStatus.NotFound:
+                        MessageBox.Show("Client not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+
+                    default:
+                        MessageBox.Show(ClsBusinessLayer.ClsBusinessLayer.SystemErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
                 }
             }
         }

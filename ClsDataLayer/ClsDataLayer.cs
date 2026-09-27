@@ -71,11 +71,12 @@ namespace nClsDataLayer
                 conn.Open();
                 return cmd.ExecuteReader(CommandBehavior.CloseConnection); // يغلق الاتصال عند إغلاق reader
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine("Error executing reader: " + ex.Message);
-                conn.Close();
-                return null;
+                // The caller never gets a reader, so release the connection here and let the
+                // error reach the business layer. Returning null made a failure look like "not found".
+                conn.Dispose();
+                throw;
             }
         }
 
@@ -145,19 +146,15 @@ namespace nClsDataLayer
             return false;
         }
 
+        // Always loads the result, so an empty table still carries its columns. Returns whether any row was found.
         public static bool GetAllRecords(ref DataTable Dt, string Query)
         {
-            SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAcessSettings.ConnectingCRMproject, Query);
-
-            if (reader != null && reader.HasRows)
+            using (SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAcessSettings.ConnectingCRMproject, Query))
             {
                 Dt.Load(reader);
-                return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return Dt.Rows.Count > 0;
         }
 
         public static bool IsClientExsist(ClsClient.ClsClient client)
@@ -180,101 +177,6 @@ namespace nClsDataLayer
             {
                 return reader.Read();
             }
-        }
-
-        public static bool IsClientExsist(int ClientID)
-        {
-            // We will do it here also :
-
-            string Query = "SELECT * FROM Clients where ClientID =@ClientID";
-
-            var parameters = new Dictionary<string, object>
-            {
-                { "@ClientID", ClientID }
-            };
-
-            SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
-
-            if (reader == null)
-            {
-                return false;
-            }
-
-            using (reader)
-            {
-                return reader.Read();
-            }
-        }
-
-        public static bool IsClientExsist(int ClientID, ref ClsClient.ClsClient Client)
-        {
-            Client = new ClsClient.ClsClient();
-
-            // We will do it here also :
-            Client = new ClsClient.ClsClient();
-
-            string Query = "SELECT * FROM Clients where ClientID =@ClientID";
-
-            var parameters = new Dictionary<string, object>
-            {
-                { "@ClientID", ClientID }
-            };
-
-            SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
-
-            if (reader == null)
-            {
-                return false;
-            }
-
-            using (reader)
-            {
-                if (reader.Read())
-                {
-                    Client.ClientName = reader["ClientName"].ToString();
-                    Client.Phone = reader["Phone"].ToString();
-                    Client.Email = reader["Email"].ToString();
-                    Client.TotalOrders = int.Parse(reader["TotalOrders"].ToString());
-                    Client.TotalPurchaseValue = decimal.Parse(reader["TotalPurchaseValue"].ToString());
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public static bool IsUserExsist(int UserID, ref ClsUser User)
-        {
-            // We will do it here also :
-
-            string Query = "SELECT * FROM Users where UserID =@UserID";
-
-            var parameters = new Dictionary<string, object>
-            {
-                { "@UserID", UserID }
-            };
-
-            SqlDataReader reader = ConnectDatabaseExecuteReader(ClsDataAccessSettings.ClsDataAcessSettings.ConnectingCRMproject, Query, parameters);
-
-            if (reader == null)
-            {
-                return false;
-            }
-
-            using (reader)
-            {
-                if (reader.Read())
-                {
-                    User.UserName = reader["UserName"].ToString();
-                    User.FullName = reader["FullName"].ToString();
-                    User.Email = reader["Email"].ToString();
-                    User.Permissions = (enPermissions)Enum.Parse(typeof(enPermissions), reader["Permissions"].ToString());
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         public static bool IsUserExsist(int UserID)

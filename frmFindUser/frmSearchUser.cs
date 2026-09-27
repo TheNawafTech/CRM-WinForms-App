@@ -34,13 +34,6 @@ namespace frmFindUser
                 return false;
             }
 
-            // Check if the client exists
-            if (!ClsBusinessLayer.ClsBusinessLayer.IsUserExsist(int.Parse(txtUserID.Text)))
-            {
-                MessageBox.Show("User does not exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtUserID.Focus();
-                return false;
-            }
             return true;
         }
 
@@ -51,13 +44,20 @@ namespace frmFindUser
 
             ClsUser_Person.ClsUser User = new ClsUser_Person.ClsUser();
 
-            if (ClsBusinessLayer.ClsBusinessLayer.GetUser(int.Parse(txtUserID.Text), ref User))
+            switch (ClsBusinessLayer.ClsBusinessLayer.GetUser(int.Parse(txtUserID.Text), ref User))
             {
-                MessageBox.Show($"User Found:\n\nID: {User.UserID}\nUserName: {User.UserName}\nFull Name: {User.FullName}\nEmail: {User.Email}\nPermissions: {User.Permissions}", "User Details", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("User not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                case ClsBusinessLayer.enOperationStatus.Success:
+                    MessageBox.Show($"User Found:\n\nID: {User.UserID}\nUserName: {User.UserName}\nFull Name: {User.FullName}\nEmail: {User.Email}\nPermissions: {User.Permissions}", "User Details", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+
+                case ClsBusinessLayer.enOperationStatus.NotFound:
+                    MessageBox.Show("User does not exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtUserID.Focus();
+                    break;
+
+                default:
+                    MessageBox.Show(ClsBusinessLayer.ClsBusinessLayer.SystemErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
             }
         }
 

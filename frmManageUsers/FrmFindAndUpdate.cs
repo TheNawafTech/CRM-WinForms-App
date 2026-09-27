@@ -48,15 +48,20 @@ namespace frmManageUsers
                 return;
             }
 
-            if (ClsBusinessLayer.ClsBusinessLayer.GetUser(int.Parse(txtUserID.Text), ref User))
+            switch (ClsBusinessLayer.ClsBusinessLayer.GetUser(int.Parse(txtUserID.Text), ref User))
             {
+                case ClsBusinessLayer.enOperationStatus.Success:
+                    frmUpdateUser0.frmUpdateUser0 frm = new frmUpdateUser0.frmUpdateUser0(User);
+                    frm.ShowDialog();
+                    break;
 
-                frmUpdateUser0.frmUpdateUser0 frm = new frmUpdateUser0.frmUpdateUser0(User);
-                frm.ShowDialog();
-            }
-            else
-            {
-                MessageBox.Show("User not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                case ClsBusinessLayer.enOperationStatus.NotFound:
+                    MessageBox.Show("User not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+
+                default:
+                    MessageBox.Show(ClsBusinessLayer.ClsBusinessLayer.SystemErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
             }
 
         }

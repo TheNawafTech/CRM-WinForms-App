@@ -77,13 +77,21 @@ namespace frmRemoveClient
                 return false;
             }
 
-            if (!ClsBusinessLayer.ClsBusinessLayer.IsClientExsist(_ClientID, ref Client))
-            {
-                MessageBox.Show("Failed to remove client. Please check the Client ID and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
+            Client = new ClsClient.ClsClient();
 
-            return true;
+            switch (ClsBusinessLayer.ClsBusinessLayer.GetClient(_ClientID, ref Client))
+            {
+                case ClsBusinessLayer.enOperationStatus.Success:
+                    return true;
+
+                case ClsBusinessLayer.enOperationStatus.NotFound:
+                    MessageBox.Show("Failed to remove client. Please check the Client ID and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+
+                default:
+                    MessageBox.Show(ClsBusinessLayer.ClsBusinessLayer.SystemErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+            }
         }
         private void btnSubmit_Click(object sender, EventArgs e)
         {
