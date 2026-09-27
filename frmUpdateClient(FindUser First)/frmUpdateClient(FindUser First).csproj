@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{53C42BF5-4A39-449C-BDD8-1EEF64C0AF8D}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>frmUpdateClient_FindUser_First_</RootNamespace>
     <AssemblyName>frmUpdateClient%28FindUser First%29</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -52,7 +52,6 @@
     <Compile Include="frmUpdateClient%28Find it first%29.Designer.cs">
       <DependentUpon>frmUpdateClient%28Find it first%29.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmUpdateClient%28Find it first%29.resx">
       <DependentUpon>frmUpdateClient%28Find it first%29.cs</DependentUpon>

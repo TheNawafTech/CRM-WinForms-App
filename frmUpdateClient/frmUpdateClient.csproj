@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{588BBDF5-6BDF-4359-B51F-1AA9A213DB3D}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>frmUpdateClient</RootNamespace>
     <AssemblyName>frmUpdateClient</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -52,7 +52,6 @@
     <Compile Include="frmUpdateClient.Designer.cs">
       <DependentUpon>frmUpdateClient.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmUpdateClient.resx">
       <DependentUpon>frmUpdateClient.cs</DependentUpon>

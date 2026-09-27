@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{7598A56B-2C34-4FE4-B088-CD0208420678}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>frmSearchClient</RootNamespace>
     <AssemblyName>frmSearchClient</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -52,7 +52,6 @@
     <Compile Include="frmSearchClient.Designer.cs">
       <DependentUpon>frmSearchClient.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmSearchClient.resx">
       <DependentUpon>frmSearchClient.cs</DependentUpon>

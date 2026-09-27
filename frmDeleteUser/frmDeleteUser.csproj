@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{7824EE12-8F5D-44F6-B4BD-1FA043BB441A}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>frmDeleteUser</RootNamespace>
     <AssemblyName>frmDeleteUser</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -52,7 +52,6 @@
     <Compile Include="frmDeleteUser.Designer.cs">
       <DependentUpon>frmDeleteUser.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmDeleteUser.resx">
       <DependentUpon>frmDeleteUser.cs</DependentUpon>

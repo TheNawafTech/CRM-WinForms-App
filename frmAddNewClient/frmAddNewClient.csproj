@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{408634A7-DC4B-440C-8771-E9A73048FE0C}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>frmAddNewClient</RootNamespace>
     <AssemblyName>frmAddNewClient</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -52,7 +52,6 @@
     <Compile Include="frmAddNewClient.Designer.cs">
       <DependentUpon>frmAddNewClient.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmAddNewClient.resx">
       <DependentUpon>frmAddNewClient.cs</DependentUpon>

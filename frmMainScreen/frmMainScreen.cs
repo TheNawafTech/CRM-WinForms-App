@@ -28,52 +28,32 @@ namespace nfrmMainScreen
             User = user;
         }
 
+        // All (-1) has every bit set, so it passes every check.
+        bool HasPermission(enPermissions Permission)
+        {
+            return (User.Permissions & Permission) == Permission;
+        }
+
+        // Re-checked when an action runs, not only when the buttons are enabled on load.
+        bool _EnsurePermission(enPermissions Permission)
+        {
+            if (HasPermission(Permission))
+            {
+                return true;
+            }
+
+            MessageBox.Show("You do not have permission to access this screen.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return false;
+        }
+
         void CheckPermissions()
         {
-            if (User.Permissions == enPermissions.All)
-            {
-                btnViewClients.Enabled = true;
-                btnSearchClient.Enabled = true;
-                btnRemoveClient.Enabled = true;
-                btnUpdateClient.Enabled = true;
-                btnAddNewClient.Enabled = true;
-                btnManageUsers.Enabled = true;
-                return;
-            }
-            else
-            {
-
-                if ((User.Permissions & enPermissions.ListClients) == enPermissions.ListClients)
-                {
-                    btnViewClients.Enabled = true;
-                }
-
-                if ((User.Permissions & enPermissions.FindClient) == enPermissions.FindClient)
-                {
-                    btnSearchClient.Enabled = true;
-                }
-
-                if ((User.Permissions & enPermissions.DeleteClient) == enPermissions.DeleteClient)
-                {
-                    btnRemoveClient.Enabled = true;
-                }
-
-                if ((User.Permissions & enPermissions.UpdateClients) == enPermissions.UpdateClients)
-                {
-                    btnUpdateClient.Enabled = true;
-                }
-
-                if ((User.Permissions & enPermissions.AddNewClient) == enPermissions.AddNewClient) 
-                {
-                    btnAddNewClient.Enabled = true;
-                }
-
-                if ((User.Permissions & enPermissions.ManageUsers) == enPermissions.ManageUsers)
-                {
-                    btnManageUsers.Enabled = true;
-                }
-
-            }
+            btnViewClients.Enabled = HasPermission(enPermissions.ListClients);
+            btnSearchClient.Enabled = HasPermission(enPermissions.FindClient);
+            btnRemoveClient.Enabled = HasPermission(enPermissions.DeleteClient);
+            btnUpdateClient.Enabled = HasPermission(enPermissions.UpdateClients);
+            btnAddNewClient.Enabled = HasPermission(enPermissions.AddNewClient);
+            btnManageUsers.Enabled = HasPermission(enPermissions.ManageUsers);
         }
         private void frmMainScreen_Load(object sender, EventArgs e)
         {
@@ -84,6 +64,9 @@ namespace nfrmMainScreen
         }
         private void btnViewClients_Click(object sender, EventArgs e)
         {
+            if (!_EnsurePermission(enPermissions.ListClients))
+                return;
+
             frmViewClientss frm = new frmViewClientss();
            
             frm.Show();
@@ -91,30 +74,45 @@ namespace nfrmMainScreen
 
         private void btnAddNewClient_Click(object sender, EventArgs e)
         {
+            if (!_EnsurePermission(enPermissions.AddNewClient))
+                return;
+
             nfrmAddNewClient.frmAddNewClient  frmAddNewClient = new nfrmAddNewClient.frmAddNewClient();
             frmAddNewClient.Show();
         }
 
         private void btnRemoveClient_Click(object sender, EventArgs e)
         {
+            if (!_EnsurePermission(enPermissions.DeleteClient))
+                return;
+
             frmRemoveClient.frmRemoveClient frm = new frmRemoveClient.frmRemoveClient();
             frm.ShowDialog();
         }
 
         private void btnUpdateClient_Click(object sender, EventArgs e)
         {
+            if (!_EnsurePermission(enPermissions.UpdateClients))
+                return;
+
             frmUpdateClient_FindUser_First_.frmUpdateClient_FindClientFirst frm = new frmUpdateClient_FindClientFirst();
             frm.ShowDialog();
         }
 
         private void btnSearchClient_Click(object sender, EventArgs e)
         {
+            if (!_EnsurePermission(enPermissions.FindClient))
+                return;
+
             frmSearchClient.frmSearchClient frm = new frmSearchClient.frmSearchClient();
             frm.ShowDialog();
         }
 
         private void btnManageUsers_Click(object sender, EventArgs e)
         {
+            if (!_EnsurePermission(enPermissions.ManageUsers))
+                return;
+
             frmManageUsers.frmManageUsers frm = new frmManageUsers.frmManageUsers();
             frm.ShowDialog();
         }
