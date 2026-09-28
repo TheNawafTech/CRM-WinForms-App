@@ -1,379 +1,208 @@
-# CRM Desktop Application
+# CRM System
 
-(Customer Relationship Management)
+A Windows desktop CRM application built with C#, .NET Framework, Windows Forms and SQL Server. It manages clients and users, with permission-based access, through a layered architecture.
 
-A simple CRM desktop application built using **C# Windows Forms** and **SQL Server**, following a basic **3-Tier Architecture** structure.
+## Overview
 
----
+The application covers:
 
-# Overview
+- **Client management**: keeping client contact details and purchase totals.
+- **User management**: creating application users and assigning their permissions.
+- **Authentication**: signing in with a username and a hashed password.
+- **Permission-based access**: each user only gets the actions their permissions allow.
+- **SQL Server storage**: a relational schema created by a single script.
 
-This project is a **Customer Relationship Management (CRM) desktop application** designed to manage clients and system users.
+UI, business logic and data access are kept in separate projects.
 
-The system allows users to store client information and control access to different parts of the application through user permissions.
+## Features
 
-The project was built **entirely by me from start to finish**, including:
+**Client management**
+- View the client list
+- Add a client
+- Find a client by ID
+- Update a client (find by ID, then edit)
+- Delete a client
 
-* Database design
-* Application architecture
-* Business logic implementation
-* Windows Forms user interface
+**User management**
+- View users
+- Add a user and assign their permissions
+- Find a user by ID
+- Update a user, including permissions and an optional password change
+- Delete a user
 
-The goal of this project was to practice **designing and implementing a structured desktop application using a multi-layer architecture**, while improving **backend development skills** and strengthening **problem-solving abilities when building multi-layered systems**.
+**Authentication and authorization**
+- Login and logout
+- Passwords stored as PBKDF2-SHA256 hashes with a random salt per password
+- Permission-based main menu: View Clients, Search Clients, Add New Client, Update Client, Remove Client and Manage Users
+- Unique usernames
 
----
+**Reliability**
+- Input validation for IDs, required fields, email addresses, phone numbers and purchase values
+- "Not found" and database failures are reported to the user as different outcomes
 
-# Architecture
-
-The application follows a **3-Tier Architecture** to separate responsibilities between different layers.
-
-## Presentation Layer (Windows Forms)
-
-Handles the user interface and user interaction.
-
-Examples include:
-
-* Login screen
-* Client management forms
-* User management screens
-* Basic validation before sending data to the business layer
-
-The UI communicates with the database **only through the Business Layer**.
-
----
-
-## Business Layer
-
-Contains the core application logic.
-
-Responsibilities include:
-
-* Validating client data
-* Managing application operations
-* Handling permission checks
-* Coordinating communication between UI and database
-
----
-
-## Data Access Layer
-
-Responsible for communicating with the **SQL Server database**.
-
-Responsibilities include:
-
-* Executing SQL queries
-* Reading and writing data
-* Managing database connections
-
-This layer isolates database operations from the rest of the system.
-
----
-
-# Main Features
-
-## Login System
-
-* User authentication
-* Login validation using database records
-* Permission-based access control
-
----
-
-## User Management
-
-* Add users
-* Delete users
-* Manage user permissions
-
----
-
-## Client Management
-
-* Add new clients
-* Update client information
-* Delete clients
-* Search for clients
----
-
-## Data Validation
-
-* Basic input validation
-* Prevent storing invalid data
-
----
-
-# Database
-
-The application uses a **SQL Server database**.
-
-Main tables include:
-
-## Clients
-
-Stores customer information such as:
-
-* ClientID
-* ClientName
-* Phone
-* Email
-* TotalOrders
-* TotalPurchaseValue
-
----
-
-## Users
-
-Stores system users and their permissions:
-
-* UserID
-* UserName
-* FullName
-* Email
-* Password
-* Permissions
-
----
-
-The database schema and sample data are included in:
-
-```
-Database/CRMproject.sql
-```
-
-Running this script will automatically create:
-
-* The database
-* All required tables
-* Sample data for testing
-
----
-
-# Technologies Used
-
-* C#
-* .NET Framework
-* Windows Forms
-* SQL Server
-* ADO.NET
-* 3-Tier Architecture
-
----
-
-# Project Structure
-
-The project is organized into multiple modules that separate UI forms, business logic, data access, settings, and database scripts.
+## Architecture
 
 ```text
-CRM Desktop Application
-│
-├── BusinessLayer
-│   ├── ClsBusinessLayer.cs
-│   └── BusinessLayer.csproj
-│
-├── ClsClient
-│   ├── ClsClient.cs
-│   └── ClsClient.csproj
-│
-├── ClsDataAccessSettings
-│   ├── ClsDataAccessSettings.cs
-│   └── ClsDataAccessSettings.csproj
-│
-├── ClsDataLayer
-│   ├── ClsDataLayer.cs
-│   └── ClsDataLayer.csproj
-│
-├── ClsUser_Person
-│   ├── ClsUser.cs
-│   └── related project files
-│
-├── Database
-│   └── CRMproject.sql
-│
-├── Screenshots
-│   ├── login.png
-│   ├── add_user.png
-│   ├── client_list.png
-│   ├── remove_user.png
-│   ├── search_client.png
-│   └── user_roles.png
-│
-├── Settings
-│   ├── Settings.cs
-│   └── Settings.csproj
-│
-├── frmAddNewClient
-├── frmAddNewUser
-├── frmDeleteUser
-├── frmFindUser
-├── frmMainScreen
-├── frmManageUsers
-├── frmPermissions0
-├── frmRemoveClient
-├── frmSearchClient
-├── frmUpdateClient(After FindUser First)
-├── frmUpdateClient
-├── frmUpdateUser0
-├── frmViewClients
-├── frmViewUsers
-│
-├── App.config
-├── CRM.sln
-└── README.md
-````
-
-This structure reflects the project’s modular organization, where each form or functional area is separated into its own project or folder, while business logic and data access are isolated in dedicated layers.
-
-
-# How to Run the Project
-
-## 1. Clone the Repository
-
+Windows Forms UI      CRM_WinForms (CRM.exe) + one class library per screen
+        ↓
+Business Layer        BusinessLayer: rules, validation, password hashing, result status
+        ↓
+Data Access Layer     ClsDataLayer (ADO.NET) + ClsDataAccessSettings (reads App.config)
+        ↓
+SQL Server            Database/CRMproject.sql
 ```
+
+- **One executable:** `CRM_WinForms` builds `CRM.exe`. Every screen is a WinForms class library, referenced by it directly or through the main menu, so there is no other executable.
+- **Shared models:** `ClsClient` and `ClsUser_Person` hold the model classes, used by all layers.
+- **Layer boundaries:** forms never talk to the database directly.
+  - Read operations return `Success`, `NotFound` or `Failure` from the business layer.
+  - Write operations return whether the change was actually saved.
+
+## Technology Stack
+
+- C#
+- .NET Framework 4.7.2
+- Windows Forms
+- SQL Server
+- ADO.NET (`System.Data.SqlClient`)
+- PBKDF2 via `System.Security.Cryptography`
+
+## Security & Data Integrity
+
+- **Password storage**
+  - Passwords are hashed with PBKDF2-HMAC-SHA256: 100,000 iterations and a 16-byte random salt per password.
+  - Each value is stored as `PBKDF2-SHA256$<iterations>$<salt>$<hash>`, and hashes are compared in constant time.
+  - Plaintext passwords are never stored.
+- **Password verification**
+  - It happens in the business layer. The data layer looks the user up by username only, and SQL never compares passwords.
+- **Password visibility**
+  - Password hashes are never loaded into grids or the signed-in user object.
+  - Password inputs are masked.
+  - When editing a user, an empty password field keeps the current password.
+- **Unique usernames**
+  - Enforced by a `UNIQUE` constraint on `Users.UserName` and by a check in the business layer.
+  - Names are trimmed, and comparison is case-insensitive under the default SQL Server collation.
+- **Parameterized SQL**
+  - Every value that comes from the user is passed to SQL as a parameter.
+- **Authorization**
+  - The main menu enables only the actions the signed-in user is allowed to use, and checks the permission again when an action is started.
+- **Error handling**
+  - Database failures are shown as a generic system error, separate from "not found".
+  - Technical details go to `System.Diagnostics.Trace`.
+- **Connections**
+  - Connections, commands and readers are closed as soon as each operation ends.
+
+## Screenshots
+
+| Login | Client list |
+|---|---|
+| <img src="Screenshots/login.png" alt="Login" width="420"> | <img src="Screenshots/client_list.png" alt="Client list" width="420"> |
+
+| Find client | Add user |
+|---|---|
+| <img src="Screenshots/search_client.png" alt="Find client" width="420"> | <img src="Screenshots/add_user.png" alt="Add user" width="420"> |
+
+| User permissions | Delete user |
+|---|---|
+| <img src="Screenshots/user_roles.png" alt="User permissions" width="420"> | <img src="Screenshots/remove_user.png" alt="Delete user confirmation" width="420"> |
+
+All screenshots use the fictitious demo data from `Database/CRMproject.sql`.
+
+## Getting Started
+
+### Prerequisites
+
+- **Windows**
+- **Visual Studio** with the **.NET desktop development** workload, which includes the .NET Framework 4.7.2 targeting pack. The project was built and tested with Visual Studio 2022.
+- **SQL Server**: any edition, including Express, Developer or LocalDB.
+- **A tool to run the database script**: SQL Server Management Studio or `sqlcmd`. These are used only for setup; the application doesn't need them.
+
+### 1. Clone the repository
+
+```bash
 git clone https://github.com/TheNawafTech/CRM-WinForms-App.git
+cd CRM-WinForms-App
 ```
 
-or download the project as a ZIP file.
+### 2. Create the database
 
----
+Run `Database/CRMproject.sql` against your SQL Server instance. You can open it in SSMS and execute it, or use `sqlcmd` from a Command Prompt or PowerShell in the repository folder:
 
-## 2. Create the Database
-
-Open **SQL Server Management Studio (SSMS)**.
-
-Open the script located in:
-
-```
-Database/CRMproject.sql
+```powershell
+sqlcmd -S . -E -i Database\CRMproject.sql
 ```
 
-Run the script to create the database and tables.
+Replace `.` with your instance name if you don't use the default one (for example `.\SQLEXPRESS` or `(localdb)\MSSQLLocalDB`).
 
----
+The script:
+- creates the `CRMproject` database if it doesn't exist;
+- creates the tables;
+- loads the demo data.
 
-## 3. Configure the Connection String
+> **Warning:** running the script again drops and recreates the tables, which resets all data to the demo set.
 
-Open:
+### 3. Configure the connection string
 
-```
-App.config
-```
-
-Update the connection string according to your SQL Server configuration.
-
-Example:
+The connection string is read from `App.config` at the repository root, in the `CRMproject` entry:
 
 ```xml
 <connectionStrings>
-  <add name="CRMConnection"
-       connectionString="Server=.;Database=CRMproject;Trusted_Connection=True;"
-       providerName="System.Data.SqlClient"/>
+  <add name="CRMproject"
+       connectionString="Server=.;Database=CRMproject;Integrated Security=True;"
+       providerName="System.Data.SqlClient" />
 </connectionStrings>
 ```
 
----
+The default connects to the local default SQL Server instance with Windows authentication. To use a different instance, change `Server`, for example:
+- `Server=.\SQLEXPRESS;`
+- `Server=(localdb)\MSSQLLocalDB;`
 
-## 4. Open the Solution
+No code changes are needed. After a build, the same setting is in `bin\Debug\CRM.exe.config`, and you can edit it there without rebuilding.
 
-Open the project in **Visual Studio**:
+### 4. Build and run
 
+1. Open `CRM.sln` in Visual Studio.
+2. Right-click **CRM_WinForms** and choose **Set as Startup Project**. Visual Studio stores the startup project per user, so a fresh clone may start with a class library selected.
+3. Build the solution. The output is `bin\Debug\CRM.exe`.
+4. Run it with **F5**, or start `bin\Debug\CRM.exe` directly.
+
+## Demo Accounts
+
+All demo accounts use the password **`Demo1234`**.
+
+| Username | Access |
+|---|---|
+| `admin.demo` | All permissions, including Manage Users |
+| `viewer.demo` | View clients and search clients only |
+
+The script also creates `manager.demo`, `sales.demo` and `support.demo`, which have other combinations of permissions.
+
+## Project Structure
+
+```text
+CRM-WinForms-App/
+├── CRM.sln
+├── CRM_WinForms.csproj        Startup project (CRM.exe): Program.cs, login form, App.config
+├── frmMainScreen/             Main menu, which enables actions based on permissions
+├── frm*/                      One WinForms class library per screen (clients, users, permissions)
+├── BusinessLayer/             Business rules, validation, password hashing
+├── ClsDataLayer/              ADO.NET data access
+├── ClsDataAccessSettings/     Reads the connection string from App.config
+├── ClsClient/                 Client model
+├── ClsUser_Person/            User model and permission flags
+├── Database/CRMproject.sql    Schema and demo data
+└── Screenshots/
 ```
-CRM.sln
-```
 
----
+## Notes
 
-## 5. Set the Startup Project
+- Purchase values are entered with a dot as the decimal separator, for example `700.50`, whatever the Windows regional settings are. Values with more than two decimal places are rejected.
+- All client and user records in the database script are fictitious: `example.com` addresses and placeholder phone numbers.
 
-Inside **Visual Studio**:
+## License
 
-1. Right click on:
-
-```
-CRM.WinForms
-```
-
-2. Select:
-
-```
-Set as Startup Project
-```
-
----
-
-## 6. Run the Application
-
-Press:
-
-```
-F5
-```
-
-or click **Start** in Visual Studio.
-
----
-## Screenshots
-
-![Login](./Screenshots/login.png)
-
-![Add User](./Screenshots/add_user.png)
-
-![User Roles](./Screenshots/user_roles.png)
-
-![Client List](./Screenshots/client_list.png)
-
-![Search Client](./Screenshots/search_client.png)
-
-![Remove User](./Screenshots/remove_user.png)
----
-
-# Demo Video
-
-https://bit.ly/CRM-System-Demo
+This repository does not include a license file.
 
 ---
 
-# Troubleshooting
-
-## Application cannot connect to database
-
-Make sure:
-
-* SQL Server is running
-* The connection string in **App.config** is correct
-* The database script was executed successfully
-
----
-
-## Startup project error
-
-If Visual Studio shows:
-
-```
-Class Library cannot be started directly
-```
-
-Set the startup project to:
-
-```
-CRM.WinForms
-```
-
----
-
-# Future Improvements
-
-Possible future enhancements include:
-
-* Implementing password hashing for improved security
-* Expanding the permission management system
-* Adding more advanced client search and filtering
-* Improving the user interface design
-
----
-
-# Developed By
-
-**Nawaf Altowairqi**
-
-GitHub
-https://github.com/TheNawafTech
+Author: [TheNawafTech](https://github.com/TheNawafTech)
